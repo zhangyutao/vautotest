@@ -90,12 +90,6 @@
 		<my.reporttitle>Testing Report</my.reporttitle>
 	</properties>
 	<build>
-		<!--<resources> <resource> <directory>${basedir}/src/main/resources</directory> 
-			</resource> <resource> <directory>${basedir}/src/main/resources</directory> 
-			<includes> <include>**/*.properties</include> </includes> <filtering>true</filtering> 
-			</resource> </resources> <testResources> <testResource> <directory>${basedir}/src/test/resources</directory> 
-			<filtering>true</filtering> <includes> <include>config.properties</include> 
-			</includes> </testResource> </testResources> -->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -176,9 +170,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
 	</build>
-
 	<repositories>
 		<repository>
 			<id>nexus</id>
@@ -206,6 +198,5 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<name>vautotest</name>
-	<description>1. to use this project, please copy all content of &quot;properties&quot; and &quot;build&quot; to your project's pom.xml
-2. to use this project, please copy all files and folders of main/resources to your project's same folder</description>
+	<description></description>
 </project>
