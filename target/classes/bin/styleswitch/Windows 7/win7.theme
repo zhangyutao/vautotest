@@ -1,0 +1,105 @@
+; Copyright © Microsoft Corp.
+
+[Theme]
+; Windows Classic - IDS_THEME_DISPLAYNAME_CLASSIC
+DisplayName=myblack
+
+; Computer - SHIDI_SERVER
+[CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\DefaultIcon]
+DefaultValue=%SystemRoot%\System32\imageres.dll,-109
+
+; UsersFiles - SHIDI_USERFILES
+[CLSID\{59031A47-3F72-44A7-89C5-5595FE6B30EE}\DefaultIcon]
+DefaultValue=%SystemRoot%\System32\imageres.dll,-123
+
+; Network - SHIDI_MYNETWORK
+[CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\DefaultIcon]
+DefaultValue=%SystemRoot%\System32\imageres.dll,-25
+
+; Recycle Bin - SHIDI_RECYCLERFULL SHIDI_RECYCLER
+[CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\DefaultIcon]
+Full=%SystemRoot%\System32\imageres.dll,-54
+Empty=%SystemRoot%\System32\imageres.dll,-55
+
+[Control Panel\Cursors]
+Arrow=
+Help=
+AppStarting=
+Wait=
+NWPen=
+No=
+SizeNS=
+SizeWE=
+Crosshair=
+IBeam=
+SizeNWSE=
+SizeNESW=
+SizeAll=
+UpArrow=
+DefaultValue=Windows default
+Hand=
+Link=
+
+[Control Panel\Desktop]
+Wallpaper=
+TileWallpaper=0
+WallpaperStyle=10
+Pattern=
+
+[Control Panel\Desktop\WindowMetrics]
+
+[Metrics]
+NonclientMetrics=88 1 0 0 1 0 0 0 16 0 0 0 16 0 0 0 18 0 0 0 18 0 0 0 245 255 255 255 0 0 0 0 0 0 0 0 0 0 0 0 188 2 0 0 0 0 0 1 0 0 0 0 84 97 104 111 109 97 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12 0 0 0 15 0 0 0 245 255 255 255 0 0 0 0 0 0 0 0 0 0 0 0 188 2 0 0 0 0 0 1 0 0 0 0 84 97 104 111 109 97 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 18 0 0 0 18 0 0 0 245 255 255 255 0 0 0 0 0 0 0 0 0 0 0 0 144 1 0 0 0 0 0 1 0 0 0 0 84 97 104 111 109 97 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 245 255 255 255 0 0 0 0 0 0 0 0 0 0 0 0 144 1 0 0 0 0 0 1 0 0 0 0 84 97 104 111 109 97 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 245 255 255 255 0 0 0 0 0 0 0 0 0 0 0 0 144 1 0 0 0 0 0 1 0 0 0 0 84 97 104 111 109 97 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+LangID=1033
+IconMetrics=76 0 0 0 75 0 0 0 75 0 0 0 1 0 0 0 245 255 255 255 0 0 0 0 0 0 0 0 0 0 0 0 144 1 0 0 0 0 0 1 0 0 0 0 84 97 104 111 109 97 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+
+[VisualStyles]
+Path=
+ColorStyle=Windows Classic
+Size=Normal
+Transparency=0
+ColorizationColor=0X6B74B8FC
+Composition=0
+VisualStyleVersion=10
+
+[boot]
+SCRNSAVE.EXE=
+
+[MasterThemeSelector]
+MTSM=DABJDKT
+
+[Sounds]
+; IDS_SCHEME_DEFAULT
+SchemeName=@mmres.dll,-800
+[Control Panel\Colors]
+Scrollbar=212 208 200
+Background=0 0 0
+ActiveTitle=10 36 106
+InactiveTitle=128 128 128
+Menu=212 208 200
+Window=255 255 255
+WindowFrame=0 0 0
+MenuText=0 0 0
+WindowText=0 0 0
+TitleText=255 255 255
+ActiveBorder=212 208 200
+InactiveBorder=212 208 200
+AppWorkspace=128 128 128
+Hilight=10 36 106
+HilightText=255 255 255
+ButtonFace=212 208 200
+ButtonShadow=128 128 128
+GrayText=128 128 128
+ButtonText=0 0 0
+InactiveTitleText=212 208 200
+ButtonHilight=255 255 255
+ButtonDkShadow=64 64 64
+ButtonLight=212 208 200
+InfoText=0 0 0
+InfoWindow=255 255 225
+ButtonAlternateFace=181 181 181
+HotTrackingColor=0 0 128
+GradientActiveTitle=166 202 240
+GradientInactiveTitle=192 192 192
+MenuHilight=10 36 106
+MenuBar=212 208 200
