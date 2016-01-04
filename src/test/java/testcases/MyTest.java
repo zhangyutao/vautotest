@@ -18,7 +18,7 @@ public class MyTest {
 
 		PSClient psc = new PSClient();
 		RestfClient rfc = new RestfClient();
-		EmailClient ec = new EmailClient(EmailProvider.SMTP, "smtp3.hp.com");
+		EmailClient ec = new EmailClient(EmailProvider.SMTP, "smtp.xxx.com");
 		// initiate all elements.
 		MyList psList = ListFactory.initElements(psc, MyList.class);
 		Command myPS = psList.myCL;

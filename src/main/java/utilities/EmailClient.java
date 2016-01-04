@@ -82,7 +82,7 @@ public class EmailClient implements Client {
 	/**
 	 * 
 	 * @param mailhost
-	 *            the email smtp server like "smtp3.hp.com"
+	 *            the email smtp server like "smtp3.xxx.com"
 	 * @param from
 	 *            the email address
 	 * @param to

@@ -19,7 +19,7 @@ public class MyList {
 	public Command myCL;
 
 	@Method("get")
-	@URL("https://www.hp.com")
+	@URL("https://www.xxx.com")
 	@Body("a test")
 	@UseSSL(false)
 	@Header(key = "content-type", value = "json content")
@@ -27,9 +27,9 @@ public class MyList {
 	@Cookie(key = "testcookie", value = "it is a test")
 	public RestfRequest myRF;
 
-	@Message(from = "yu-tao.zhang@hpe.com", to = "yu-tao.zhang@hpe.com", subject = "test1", textBody = "test body", attachmentsPath = {
+	@Message(from = "yu-tao.zhang@xxx.com", to = "yu-tao.zhang@xxx.com", subject = "test1", textBody = "test body", attachmentsPath = {
 			"c:\\test.txt", "c:\\test1.txt" })
-	@Message(from = "yu-tao.zhang@hpe.com", to = "yu-tao.zhang@hpe.com", subject = "test2", textBody = "test body")
+	@Message(from = "yu-tao.zhang@xxx.com", to = "yu-tao.zhang@xxx.com", subject = "test2", textBody = "test body")
 	public Email myEmail;
 
 }
