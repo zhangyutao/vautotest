@@ -50,7 +50,7 @@
 			<artifactId>sikulixapi</artifactId>
 			<version>1.1.0</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.hp.ecs.at</groupId>
 			<artifactId>secureshell</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -64,6 +64,27 @@
 			<groupId>com.hp.ecs.at</groupId>
 			<artifactId>restfulwebservice</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency> -->
+		<dependency>
+			<groupId>restclient</groupId>
+			<artifactId>restclient</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/ext-deps/restfulwebservice-0.0.1-SNAPSHOT-jar-with-dependencies.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>powershell</groupId>
+			<artifactId>powershell</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/ext-deps/powershell-0.0.1-SNAPSHOT-jar-with-dependencies.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>secureshell</groupId>
+			<artifactId>secureshell</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/ext-deps/secureshell-0.0.1-SNAPSHOT-jar-with-dependencies.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.oracle</groupId>
