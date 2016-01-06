@@ -2,7 +2,7 @@ package utilities;
 
 import java.util.ArrayList;
 import basic.ServerCheckpointElements;
-import basic.Comparison;
+import basic.ServerComparison;
 import basic.EndpointObject;
 import basic.Client;
 
@@ -21,11 +21,12 @@ public class E2EValidationClient implements Client {
 
 	@Override
 	public void execute(Object serverCheckpointElements) throws Exception {
-		System.out.println("starts to end to end validation.");
+		System.out.println("Start E2E validation.");
 		ArrayList<Object> elements = ((ServerCheckpointElements) serverCheckpointElements).getElements();
-		Comparison serverComparison = (Comparison) elements.get(2);
+		ServerComparison serverComparison = (ServerComparison) elements.get(2);
 		serverComparison.compare((EndpointObject) elements.get(0), (EndpointObject) elements.get(1));
 		result = serverComparison.getComparisonResult();
+		System.out.println("E2E validation is over.");
 	}
 
 	@SuppressWarnings("unchecked")

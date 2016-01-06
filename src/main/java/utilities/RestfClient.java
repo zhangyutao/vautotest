@@ -117,7 +117,7 @@ public class RestfClient implements Client {
 	 */
 	@Override
 	public void execute(Object request) throws Exception {
-		System.out.println("execute request");
+		System.out.println("Execute Resf-webservice request");
 
 		Response response = null;
 		response = restfulClient.executeRequest((Request) request);
@@ -144,6 +144,7 @@ public class RestfClient implements Client {
 			throw new Exception("Cannot get response");
 		}
 		this.rsp = response;
+		System.out.println("Get Resf-webservice response.");
 	}
 
 	@Override

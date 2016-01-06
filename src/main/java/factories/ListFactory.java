@@ -240,17 +240,29 @@ public class ListFactory implements Factory {
 		} else if (ServerCheckpoint.class.isAssignableFrom(field.getType())
 				&& (commandClient instanceof E2EValidationClient)) {
 			if (field.getAnnotation(Elements.class) != null) {
+				E2EValidationClient validationClient = new E2EValidationClient();
 				ServerCheckpoint serverCheckpoint = new ServerCheckpoint();
 				Elements elements = (Elements) field.getAnnotation(Elements.class);
 				if (elements.expObj() != null & elements.actObj() != null & elements.comparison() != null) {
 					ServerCheckpointElements arg = new ServerCheckpointElements();
 					ArrayList<Object> eles = new ArrayList<Object>();
-					eles.add(elements.expObj());
-					eles.add(elements.actObj());
-					eles.add(elements.comparison());
+					try {
+						eles.add(elements.expObj().newInstance());
+						eles.add(elements.actObj().newInstance());
+						eles.add(elements.comparison().newInstance());
+					} catch (InstantiationException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						return null;
+					} catch (IllegalAccessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						return null;
+					}
 					try {
 						arg.setElements(eles);
 						serverCheckpoint.setElements(arg);
+						serverCheckpoint.setClient(validationClient);
 						return serverCheckpoint;
 					} catch (Exception e) {
 						// TODO Auto-generated catch block

@@ -130,7 +130,7 @@ public class SQLClient implements Client {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		System.out.println("SQL execution is over.");
 		return rowset;
 	}
 
