@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
+import annotations.checkpoint.Elements;
 import annotations.cmd.Line;
 import annotations.cmd.containers.LineContainer;
 import annotations.email.Message;
@@ -19,15 +20,19 @@ import annotations.httprequest.containers.CookieContainer;
 import annotations.httprequest.containers.HeaderContainer;
 import basic.Client;
 import basic.Factory;
+import basic.ServerCheckpointElements;
 import elements.Command;
 import elements.Email;
 import elements.RestfRequest;
+import elements.ServerCheckpoint;
+import utilities.E2EValidationClient;
 import utilities.EmailClient;
 import utilities.PSClient;
 import utilities.RestfClient;
 import utilities.SQLClient;
 import utilities.SSHClient;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,7 +75,8 @@ public class ListFactory implements Factory {
 
 		if (!(Command.class.isAssignableFrom(field.getType()))
 				&& !(RestfRequest.class.isAssignableFrom(field.getType()))
-				&& !(Email.class.isAssignableFrom(field.getType()))) {
+				&& !(Email.class.isAssignableFrom(field.getType()))
+				&& !(ServerCheckpoint.class.isAssignableFrom(field.getType()))) {
 			return null;
 		}
 
@@ -219,6 +225,33 @@ public class ListFactory implements Factory {
 						email.setupMessage(message.from(), message.to(), message.subject(), message.textBody(),
 								message.attachmentsPath());
 						return email;
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						return null;
+					}
+
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		} else if (ServerCheckpoint.class.isAssignableFrom(field.getType())
+				&& (commandClient instanceof E2EValidationClient)) {
+			if (field.getAnnotation(Elements.class) != null) {
+				ServerCheckpoint serverCheckpoint = new ServerCheckpoint();
+				Elements elements = (Elements) field.getAnnotation(Elements.class);
+				if (elements.expObj() != null & elements.actObj() != null & elements.serverComparison() != null) {
+					ServerCheckpointElements arg = new ServerCheckpointElements();
+					ArrayList<Object> eles = new ArrayList<Object>();
+					eles.add(elements.expObj());
+					eles.add(elements.actObj());
+					eles.add(elements.serverComparison());
+					try {
+						arg.setElements(eles);
+						serverCheckpoint.setElements(arg);
+						return serverCheckpoint;
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

@@ -47,7 +47,7 @@ public class ScenarioClient {
 	 */
 	public HashMap<Integer, ScenarioResult> execute(Scenario scenario, ScenarioIO datainput, int iteration,
 			boolean isConcurrent, int timeout) {
-		if (timeout<=0){
+		if (timeout <= 0) {
 			timeout = 180000;
 		}
 		ArrayList<Thread> iterationScenarioThreads = new ArrayList<Thread>();

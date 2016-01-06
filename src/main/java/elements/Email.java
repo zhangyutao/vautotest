@@ -6,7 +6,7 @@ import basic.DefaultEmailFormat;
 import utilities.EmailClient;
 
 /**
- * this class would support all http/https type's request
+ * this class would support all email message
  * 
  * @author Linus
  *

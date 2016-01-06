@@ -49,8 +49,7 @@ public class MyTest {
 		// print some information of elements
 		try {
 			System.out.println((String) myPS.getResponse());
-			System.out.println(new
-			String(myReq.getResponse().getResponseBody(), "gb2312"));
+			System.out.println(new String(myReq.getResponse().getResponseBody(), "gb2312"));
 			System.out.println(String.valueOf(myEmail.getResponses()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
