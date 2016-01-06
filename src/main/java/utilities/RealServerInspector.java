@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.NodeList;
+
+import com.hp.ecs.ssh.SecureShellClientException;
+
 import utilities.Utility;
 import basic.WinAuto;
 import elements.Command;
@@ -27,6 +30,7 @@ public class RealServerInspector {
 
 	private boolean isFirstConnected = true;
 	private WinAuto wa = null;
+	private SSHClient sshc = null;
 	private LinuxQueryList linuxQueryList;
 	private RealLinuxServerInfoBean realServerForLinux;
 	private RealWinServerInfoBean realServerForWin;
@@ -70,7 +74,7 @@ public class RealServerInspector {
 		}
 
 		try {
-			SSHClient sshc = new SSHClient();
+			sshc = new SSHClient();
 			sshc.openSession(hostname, username, password);
 			linuxQueryList = (LinuxQueryList) ListFactory.initElements(sshc, LinuxQueryList.class);
 		} catch (Exception e) {
@@ -112,7 +116,7 @@ public class RealServerInspector {
 		}
 
 		try {
-			SSHClient sshc = new SSHClient();
+			sshc = new SSHClient();
 			sshc.openSession(hostname, port, username, password);
 			linuxQueryList = (LinuxQueryList) ListFactory.initElements(sshc, LinuxQueryList.class);
 
@@ -174,7 +178,7 @@ public class RealServerInspector {
 
 		try {
 			Command query = linuxQueryList.queryDNS;
-			query.setLine(query.getLine().replaceAll("0.0.0.0", ip));
+			query.setLine(query.getLine().replaceAll(LinuxQueryList.deafultIP.replaceAll("\\.", "\\\\."), ip));
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxDNS(res);
@@ -483,9 +487,16 @@ public class RealServerInspector {
 		}
 	}
 
+	public void exitLinuxSever() throws Exception {
+
+		if (sshc != null) {
+			sshc.close();
+		}
+	}
+
 	// this method must be used under a windows which performance option of
 	// visual effects is whole turned off.
-	public boolean connectToWinServerFromhLocal(String localosname, String destServerIP, String destServerUserName,
+	public boolean connectToWinServer(String localosname, String destServerIP, String destServerUserName,
 			String destServerPassword, String psosname) throws Exception {
 		boolean res = false;
 		wa = new WinAuto("");
@@ -497,9 +508,6 @@ public class RealServerInspector {
 		} else {
 			this.realServerForWin = new RealWinServerInfoBean();
 		}
-		// mockWinServer = new String[]{jumpstationip, jumpstationusername,
-		// jumpstationpassword, destServerIP, destServerUserName,
-		// destServerPassword};
 
 		Thread.sleep(100);
 		if (wa.logonWindServerFromLocal(localosname, destServerIP, destServerUserName, destServerPassword, psosname)) {
@@ -521,13 +529,9 @@ public class RealServerInspector {
 		if (isFirstConnected == false) {
 			this.realServerForWin = null;
 			this.realServerForWin = new RealWinServerInfoBean();
-			// mockWinServer = null;
 		} else {
 			this.realServerForWin = new RealWinServerInfoBean();
 		}
-		// mockWinServer = new String[]{jumpstationip, jumpstationusername,
-		// jumpstationpassword, destServerIP, destServerUserName,
-		// destServerPassword};
 
 		if (wa.logonWindServerThroughJumpStation(localosname, jumpstationip, jumpstationusername, jumpstationpassword,
 				jsosname, destServerIP, destServerUserName, destServerPassword, psosname)) {

@@ -21,9 +21,7 @@ public class E2EValidationClient implements Client {
 
 	@Override
 	public void execute(Object serverCheckpointElements) throws Exception {
-
-		// System.out.println("starts to execute:" + commandline);
-
+		System.out.println("starts to end to end validation.");
 		ArrayList<Object> elements = ((ServerCheckpointElements) serverCheckpointElements).getElements();
 		Comparison serverComparison = (Comparison) elements.get(2);
 		serverComparison.compare((EndpointObject) elements.get(0), (EndpointObject) elements.get(1));
