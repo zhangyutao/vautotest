@@ -8,7 +8,7 @@ import utilities.E2EValidationClient;
 /**
  * this class would support all Server checkpoint
  * 
- * @author Linus
+ * @author zhangyutao
  *
  */
 public class ServerCheckpoint implements DefaultServerCheckpoint {

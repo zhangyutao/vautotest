@@ -1,9 +1,3 @@
-/*
- * Copyright Notice ====================================================
- * This file contains proprietary information of Hewlett-Packard Co.
- * Copying or reproduction without prior written approval is prohibited.
- * Copyright (c) 2014 All rights reserved. =============================
- */
 
 package utilities;
 
@@ -24,7 +18,7 @@ import basic.Client;
  * generated after you executed a request on time. if it does not appear, please
  * add it mannually.
  * 
- * @author yu-tao.zhang@hp.com
+ * @author zhangyutao
  *
  */
 public class RestfClient implements Client {
@@ -37,7 +31,7 @@ public class RestfClient implements Client {
 	}
 
 	/**
-	 * to return the object {@link #rsp}. author: yu-tao.zhang@hp.com create on
+	 * to return the object {@link #rsp}. author: zhangyutao create on
 	 * 2014-03-04
 	 * 
 	 * @return return the object {@link #rsp}
@@ -48,7 +42,7 @@ public class RestfClient implements Client {
 	}
 
 	/**
-	 * to return the response body in string format. author: yu-tao.zhang@hp.com
+	 * to return the response body in string format. author: zhangyutao
 	 * create on 2015-01-05
 	 * 
 	 * @return return the responsebody
@@ -60,7 +54,7 @@ public class RestfClient implements Client {
 
 	/**
 	 * to be called in child class and get the child class's parameters for
-	 * other method. author: yu-tao.zhang@hp.com create on 2014-03-04
+	 * other method. author: zhangyutao create on 2014-03-04
 	 * 
 	 * @param methodName
 	 *            the method of request like post, update and so on
@@ -114,7 +108,7 @@ public class RestfClient implements Client {
 	 * this method will send diferent request according to the request
 	 * information you give in method "setCard()" like
 	 * {@link #setCard(String, String, String, String, Map, Map, String, boolean, Map)}
-	 * . author: yu-tao.zhang@hp.com create on 2014-03-04
+	 * . author: zhangyutao create on 2014-03-04
 	 * 
 	 * @throws Exception
 	 * 

@@ -8,7 +8,7 @@ import basic.Client;
 /**
  * the client used to execute PowerShell command.
  * 
- * @author yu-tao.zhang@hp.com
+ * @author zhangyutao
  *
  */
 public class PSClient implements Client {
@@ -33,7 +33,7 @@ public class PSClient implements Client {
 
 	/**
 	 * execute powsershell commandline in local windows. author:
-	 * yu-tao.zhang@hp.com Created on Mar 11, 2014
+	 * zhangyutao Created on Mar 11, 2014
 	 * 
 	 * @param timeOutInSeconds
 	 *            the time out to wait the execution
@@ -55,7 +55,7 @@ public class PSClient implements Client {
 	/**
 	 * execute powsershell commandline in remote windows computer. The time out
 	 * to wait the execution is {@link #defautTimeOut} seconds. author:
-	 * yu-tao.zhang@hp.com Created on Mar 11, 2014
+	 * zhangyutao Created on Mar 11, 2014
 	 * 
 	 * @param targetHost
 	 *            remote computer's ip or remote computer name
@@ -72,7 +72,7 @@ public class PSClient implements Client {
 
 	/**
 	 * execute powsershell commandline in remote windows computer. author:
-	 * yu-tao.zhang@hp.com Created on Mar 11, 2014
+	 * zhangyutao Created on Mar 11, 2014
 	 * 
 	 * @param targetHost
 	 *            remote computer's ip or remote computer name
@@ -102,7 +102,7 @@ public class PSClient implements Client {
 	/**
 	 * execute powsershell commandline in remote windows computer. The time out
 	 * to wait the execution is {@link #defautTimeOut} seconds. author:
-	 * yu-tao.zhang@hp.com Created on Nov 04, 2014
+	 * zhangyutao Created on Nov 04, 2014
 	 * 
 	 * @param commandline
 	 * @param targetHost1
@@ -127,7 +127,7 @@ public class PSClient implements Client {
 
 	/**
 	 * execute powsershell commandline in remote windows computer. author:
-	 * yu-tao.zhang@hp.com Created on Nov 04, 2014
+	 * zhangyutao Created on Nov 04, 2014
 	 * 
 	 * @param commandline
 	 * @param targetHost1
@@ -163,7 +163,7 @@ public class PSClient implements Client {
 	}
 
 	/**
-	 * transform string array to a string. author: yu-tao.zhang@hp.com Created
+	 * transform string array to a string. author: zhangyutao Created
 	 * on Mar 11, 2014
 	 * 
 	 * @param a
@@ -182,7 +182,7 @@ public class PSClient implements Client {
 	}
 
 	/**
-	 * check if PS is installed. author: yu-tao.zhang@hp.com Created on Mar 11,
+	 * check if PS is installed. author: zhangyutao Created on Mar 11,
 	 * 2014
 	 * 
 	 * @throws PSCException

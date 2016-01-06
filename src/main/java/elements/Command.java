@@ -8,7 +8,7 @@ import basic.DefaultCommand;
 /**
  * this class would support all String type's command
  * 
- * @author Linus
+ * @author zhangyutao
  *
  */
 public class Command implements DefaultCommand {

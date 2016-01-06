@@ -8,7 +8,7 @@ import utilities.EmailClient;
 /**
  * this class would support all email message
  * 
- * @author Linus
+ * @author zhangyutao
  *
  */
 public class Email implements DefaultEmailFormat {

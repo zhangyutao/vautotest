@@ -18,7 +18,7 @@ import basic.Client;
 /**
  * the client used to execute SQL.
  * 
- * @author yu-tao.zhang@hp.com
+ * @author zhangyutao
  *
  */
 public class SQLClient implements Client {

@@ -8,7 +8,7 @@ import basic.Client;
 /**
  * the client used to execute SSH command.
  * 
- * @author yu-tao.zhang@hp.com
+ * @author zhangyutao
  *
  */
 public class SSHClient implements Client {

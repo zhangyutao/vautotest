@@ -1,9 +1,3 @@
-/*
- * Copyright Notice ====================================================
- * This file contains proprietary information of Hewlett-Packard Co.
- * Copying or reproduction without prior written approval is prohibited.
- * Copyright (c) 2014 All rights reserved. =============================
- */
 
 package basic;
 
@@ -18,7 +12,7 @@ import utilities.Utility;
  * This class is used to read config.properties and generate global variables
  * for whole project.
  * 
- * @author yu-tao.zhang@hp.com create on 2014-03-04
+ * @author zhangyutao create on 2014-03-04
  */
 public class Config {
 	public Config() {
@@ -29,7 +23,7 @@ public class Config {
 	/**
 	 * it is configuration properties.
 	 * 
-	 * @author: yu-tao.zhang@hp.com create on 2014-03-04
+	 * @author: zhangyutao create on 2014-03-04
 	 * @param CONFIG
 	 */
 	private static final Properties CONFIG = new Properties();

@@ -9,7 +9,7 @@ import basic.Client;
 /**
  * the client used to execute server checkpoint command.
  * 
- * @author yu-tao.zhang@hp.com
+ * @author zhangyutao
  *
  */
 public class E2EValidationClient implements Client {

@@ -20,7 +20,7 @@ import utilities.Utility;
 /**
  * this class is under developping...be careful to use it.
  * 
- * @author yu-tao.zhang@hpe.com
+ * @author zhangyutao
  *
  */
 public class WinAuto {

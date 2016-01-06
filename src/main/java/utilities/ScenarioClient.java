@@ -1,9 +1,3 @@
-/*
- * Copyright Notice ====================================================
- * This file contains proprietary information of Hewlett-Packard Co.
- * Copying or reproduction without prior written approval is prohibited.
- * Copyright (c) 2014 All rights reserved. =============================
- */
 
 package utilities;
 
@@ -18,7 +12,7 @@ import elements.Scenario;
 /**
  * the client used to execute a Scenario.java
  * 
- * @author yu-tao.zhang@hp.com
+ * @author zhangyutao
  * 
  * 
  */
@@ -43,7 +37,7 @@ public class ScenarioClient {
 	 * @param timeout
 	 *            the timeout for execute one scenario.it is in milliseconds
 	 * @return
-	 * @author yu-tao.zhang@hp.com
+	 * @author zhangyutao
 	 */
 	public HashMap<Integer, ScenarioResult> execute(Scenario scenario, ScenarioIO datainput, int iteration,
 			boolean isConcurrent, int timeout) {

@@ -17,7 +17,6 @@ public class MyList {
 	@Line("echo \"test1\"")
 	@Line("echo \"test2\"")
 	public Command myCL;
-
 	@Method("get")
 	@URL("https://www.xxx.com")
 	@Body("a test")
@@ -31,5 +30,4 @@ public class MyList {
 			"c:\\test.txt", "c:\\test1.txt" })
 	@Message(from = "yu-tao.zhang@xxx.com", to = "yu-tao.zhang@xxx.com", subject = "test2", textBody = "test body")
 	public Email myEmail;
-
 }

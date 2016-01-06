@@ -1,9 +1,3 @@
-/*
- * Copyright Notice ====================================================
- * This file contains proprietary information of Hewlett-Packard Co.
- * Copying or reproduction without prior written approval is prohibited.
- * Copyright (c) 2014 All rights reserved. =============================
- */
 
 package utilities;
 
@@ -62,13 +56,13 @@ import java.util.regex.Pattern;
 /**
  * a useful methods group.
  * 
- * @author yu-tao.zhang@hp.com
+ * @author zhangyutao
  * 
  */
 public class Utility {
 
 	/**
-	 * Return a string about current time. author: yu-tao.zhang@hp.com create on
+	 * Return a string about current time. author: zhangyutao create on
 	 * 2014-03-04
 	 * 
 	 * @return Return a string about current time yyyy-MM-dd HH:mm:ss
@@ -79,7 +73,7 @@ public class Utility {
 
 	/**
 	 * Return a string about a time = current time + days. author:
-	 * yu-tao.zhang@hp.com create on 2014-03-04
+	 * zhangyutao create on 2014-03-04
 	 * 
 	 * @param daysOffset
 	 *            how many day after current day yyyy-MM-dd HH:mm:ss
@@ -93,7 +87,7 @@ public class Utility {
 
 	/**
 	 * Return a string with new format according to the date and the format you
-	 * provide. author: yu-tao.zhang@hp.com create on 2014-03-04
+	 * provide. author: zhangyutao create on 2014-03-04
 	 * 
 	 * @param date
 	 *            date
@@ -108,7 +102,7 @@ public class Utility {
 	}
 
 	/**
-	 * Return a data with new format and timezome. author: yu-tao.zhang@hp.com
+	 * Return a data with new format and timezome. author: zhangyutao
 	 * create on 2014-03-04
 	 * 
 	 * @param sourceDate
@@ -134,7 +128,7 @@ public class Utility {
 	}
 
 	/**
-	 * Return a data with new format and timezome. author: yu-tao.zhang@hp.com
+	 * Return a data with new format and timezome. author: zhangyutao
 	 * create on 2014-03-04
 	 * 
 	 * @param sourceDate
@@ -215,7 +209,7 @@ public class Utility {
 
 	/**
 	 * uncompress a GIP byte[] data and then return a string about the content.
-	 * author: yu-tao.zhang@hp.com create on 2014-03-04
+	 * author: zhangyutao create on 2014-03-04
 	 * 
 	 * @param compressed
 	 *            like a body of http response
@@ -277,7 +271,7 @@ public class Utility {
 	}
 
 	/**
-	 * Query Xml according to standard Xpath Query. author: yu-tao.zhang@hp.com
+	 * Query Xml according to standard Xpath Query. author: zhangyutao
 	 * create on 2014-03-04
 	 * 
 	 * @param respXml
@@ -304,7 +298,7 @@ public class Utility {
 	}
 
 	/**
-	 * Query Xml according to standard Xpath Query. author: yu-tao.zhang@hp.com
+	 * Query Xml according to standard Xpath Query. author: zhangyutao
 	 * create on 2014-03-04
 	 * 
 	 * @param respXmlByte
@@ -331,7 +325,7 @@ public class Utility {
 	}
 
 	/**
-	 * String to XML org.w3c.dom.Document. author: yu-tao.zhang@hp.com create on
+	 * String to XML org.w3c.dom.Document. author: zhangyutao create on
 	 * 2014-03-04
 	 * 
 	 * @param xmlStr
@@ -370,7 +364,7 @@ public class Utility {
 	}
 
 	/**
-	 * String to XML org.w3c.dom.Document. author: yu-tao.zhang@hp.com create on
+	 * String to XML org.w3c.dom.Document. author: zhangyutao create on
 	 * 2014-03-04
 	 * 
 	 * @param xmlByte
@@ -411,7 +405,7 @@ public class Utility {
 
 	/**
 	 * kill the window process by the name you provided. author:
-	 * yu-tao.zhang@hp.com create on 2014-03-04
+	 * zhangyutao create on 2014-03-04
 	 * 
 	 * @param programName
 	 *            program Name
@@ -454,7 +448,7 @@ public class Utility {
 	}
 
 	/**
-	 * copy all file from source to destination. author: yu-tao.zhang@hp.com
+	 * copy all file from source to destination. author: zhangyutao
 	 * create on 2014-03-04
 	 * 
 	 * @param source
@@ -496,7 +490,7 @@ public class Utility {
 	}
 
 	/**
-	 * check if the string is a number. author: yu-tao.zhang@hp.com Created on
+	 * check if the string is a number. author: zhangyutao Created on
 	 * Mar 12, 2014
 	 * 
 	 * @param str
