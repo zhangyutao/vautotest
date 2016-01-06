@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import basic.Scenario;
 import basic.ScenarioIO;
 import basic.ScenarioResult;
-import elements.Scenario;
 
 /**
  * the client used to execute a Scenario.java

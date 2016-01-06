@@ -12,6 +12,7 @@ import annotations.httprequest.UseSSL;
 import elements.Command;
 import elements.Email;
 import elements.RestfRequest;
+import elements.ScenarioInstance;
 import elements.ServerCheckpoint;
 
 public class MyList {
@@ -35,4 +36,7 @@ public class MyList {
 
 	@Elements(expObj = MyCustomerDBInfo.class, actObj = MyServerInfo.class, comparison = MyServerCPUComp.class)
 	public ServerCheckpoint myserverCheckpoint;
+	
+	@Elements(expObj = MyCustomerDBInfo.class, actObj = MyServerInfo.class, comparison = MyServerCPUComp.class)
+	public ScenarioInstance myScenarioInstance;
 }

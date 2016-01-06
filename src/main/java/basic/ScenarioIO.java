@@ -2,10 +2,10 @@ package basic;
 
 import java.util.ArrayList;
 
-public interface ScenarioIO {
+public abstract class ScenarioIO {
 	// use to get a value by a key
-	String getValue(String key);
+	abstract String getValues();
 
 	// use to get a value list by a key
-	ArrayList<String> getValues(String key);
+	abstract ArrayList<String> getValues(String key);
 }

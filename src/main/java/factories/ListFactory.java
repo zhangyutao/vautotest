@@ -18,12 +18,14 @@ import annotations.httprequest.URL;
 import annotations.httprequest.UseSSL;
 import annotations.httprequest.containers.CookieContainer;
 import annotations.httprequest.containers.HeaderContainer;
+import annotations.scenario.Properties;
 import basic.Client;
 import basic.Factory;
 import basic.ServerCheckpointElements;
 import elements.Command;
 import elements.Email;
 import elements.RestfRequest;
+import elements.ScenarioInstance;
 import elements.ServerCheckpoint;
 import utilities.E2EValidationClient;
 import utilities.EmailClient;
@@ -31,6 +33,7 @@ import utilities.PSClient;
 import utilities.RestfClient;
 import utilities.SQLClient;
 import utilities.SSHClient;
+import utilities.ScenarioClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -240,7 +243,6 @@ public class ListFactory implements Factory {
 		} else if (ServerCheckpoint.class.isAssignableFrom(field.getType())
 				&& (commandClient instanceof E2EValidationClient)) {
 			if (field.getAnnotation(Elements.class) != null) {
-				E2EValidationClient validationClient = new E2EValidationClient();
 				ServerCheckpoint serverCheckpoint = new ServerCheckpoint();
 				Elements elements = (Elements) field.getAnnotation(Elements.class);
 				if (elements.expObj() != null & elements.actObj() != null & elements.comparison() != null) {
@@ -262,13 +264,45 @@ public class ListFactory implements Factory {
 					try {
 						arg.setElements(eles);
 						serverCheckpoint.setElements(arg);
-						serverCheckpoint.setClient(validationClient);
+						serverCheckpoint.setClient(commandClient);
 						return serverCheckpoint;
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 						return null;
 					}
+
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		} else if (ScenarioInstance.class.isAssignableFrom(field.getType())
+				&& (commandClient instanceof ScenarioClient)) {
+			if (field.getAnnotation(Properties.class) != null) {
+				Properties properties = (Properties) field.getAnnotation(Elements.class);
+				if (properties.scenarioClass() != null & properties.scenarioInput() != null
+						& properties.iteration() > 0) {
+					ScenarioInstance scenarioInstance = new ScenarioInstance();
+					scenarioInstance.setScenarioClient((ScenarioClient) commandClient);
+					try {
+						scenarioInstance.setScenario(properties.scenarioClass().newInstance());
+						scenarioInstance.setDatainput(properties.scenarioInput().newInstance());
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						return null;
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						return null;
+					}
+
+					scenarioInstance.setIteration(properties.iteration());
+					scenarioInstance.setConcurrent(properties.isConcurrent());
+					scenarioInstance.setTimeout(properties.timeout());
+					return scenarioInstance;
 
 				} else {
 					return null;
