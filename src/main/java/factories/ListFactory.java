@@ -242,12 +242,12 @@ public class ListFactory implements Factory {
 			if (field.getAnnotation(Elements.class) != null) {
 				ServerCheckpoint serverCheckpoint = new ServerCheckpoint();
 				Elements elements = (Elements) field.getAnnotation(Elements.class);
-				if (elements.expObj() != null & elements.actObj() != null & elements.serverComparison() != null) {
+				if (elements.expObj() != null & elements.actObj() != null & elements.comparison() != null) {
 					ServerCheckpointElements arg = new ServerCheckpointElements();
 					ArrayList<Object> eles = new ArrayList<Object>();
 					eles.add(elements.expObj());
 					eles.add(elements.actObj());
-					eles.add(elements.serverComparison());
+					eles.add(elements.comparison());
 					try {
 						arg.setElements(eles);
 						serverCheckpoint.setElements(arg);

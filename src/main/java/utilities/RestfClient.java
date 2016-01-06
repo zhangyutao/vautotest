@@ -42,8 +42,8 @@ public class RestfClient implements Client {
 	}
 
 	/**
-	 * to return the response body in string format. author: zhangyutao
-	 * create on 2015-01-05
+	 * to return the response body in string format. author: zhangyutao create
+	 * on 2015-01-05
 	 * 
 	 * @return return the responsebody
 	 */

@@ -5,8 +5,9 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import basic.Comparison;
 import basic.EndpointObject;
-import basic.ServerComparison;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -24,6 +25,6 @@ public @interface Elements {
 
 	Class<? extends EndpointObject> actObj();
 
-	Class<? extends ServerComparison> serverComparison();
+	Class<? extends Comparison> comparison();
 
 }

@@ -4,9 +4,9 @@ import annotations.cmd.Line;
 import elements.Command;
 
 public class LinuxQueryList {
-    public static final String deafultIP = "0.0.0.0";
-    
-	@Line("nslookup "+deafultIP+" | grep \"name\"")
+	public static final String deafultIP = "0.0.0.0";
+
+	@Line("nslookup " + deafultIP + " | grep \"name\"")
 	public Command queryDNS;
 
 	@Line("getconf LONG_BIT")

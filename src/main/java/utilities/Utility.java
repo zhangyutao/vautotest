@@ -72,8 +72,8 @@ public class Utility {
 	}
 
 	/**
-	 * Return a string about a time = current time + days. author:
-	 * zhangyutao create on 2014-03-04
+	 * Return a string about a time = current time + days. author: zhangyutao
+	 * create on 2014-03-04
 	 * 
 	 * @param daysOffset
 	 *            how many day after current day yyyy-MM-dd HH:mm:ss
@@ -102,8 +102,8 @@ public class Utility {
 	}
 
 	/**
-	 * Return a data with new format and timezome. author: zhangyutao
-	 * create on 2014-03-04
+	 * Return a data with new format and timezome. author: zhangyutao create on
+	 * 2014-03-04
 	 * 
 	 * @param sourceDate
 	 *            the data you want convert, it should be in standard data
@@ -128,8 +128,8 @@ public class Utility {
 	}
 
 	/**
-	 * Return a data with new format and timezome. author: zhangyutao
-	 * create on 2014-03-04
+	 * Return a data with new format and timezome. author: zhangyutao create on
+	 * 2014-03-04
 	 * 
 	 * @param sourceDate
 	 *            the data you want convert, it should be in standard data
@@ -271,8 +271,8 @@ public class Utility {
 	}
 
 	/**
-	 * Query Xml according to standard Xpath Query. author: zhangyutao
-	 * create on 2014-03-04
+	 * Query Xml according to standard Xpath Query. author: zhangyutao create on
+	 * 2014-03-04
 	 * 
 	 * @param respXml
 	 *            a file path
@@ -298,8 +298,8 @@ public class Utility {
 	}
 
 	/**
-	 * Query Xml according to standard Xpath Query. author: zhangyutao
-	 * create on 2014-03-04
+	 * Query Xml according to standard Xpath Query. author: zhangyutao create on
+	 * 2014-03-04
 	 * 
 	 * @param respXmlByte
 	 *            like a body of http format response
@@ -404,8 +404,8 @@ public class Utility {
 	}
 
 	/**
-	 * kill the window process by the name you provided. author:
-	 * zhangyutao create on 2014-03-04
+	 * kill the window process by the name you provided. author: zhangyutao
+	 * create on 2014-03-04
 	 * 
 	 * @param programName
 	 *            program Name
@@ -448,8 +448,8 @@ public class Utility {
 	}
 
 	/**
-	 * copy all file from source to destination. author: zhangyutao
-	 * create on 2014-03-04
+	 * copy all file from source to destination. author: zhangyutao create on
+	 * 2014-03-04
 	 * 
 	 * @param source
 	 *            source
@@ -490,8 +490,8 @@ public class Utility {
 	}
 
 	/**
-	 * check if the string is a number. author: zhangyutao Created on
-	 * Mar 12, 2014
+	 * check if the string is a number. author: zhangyutao Created on Mar 12,
+	 * 2014
 	 * 
 	 * @param str
 	 *            str

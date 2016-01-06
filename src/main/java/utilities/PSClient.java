@@ -32,8 +32,8 @@ public class PSClient implements Client {
 	}
 
 	/**
-	 * execute powsershell commandline in local windows. author:
-	 * zhangyutao Created on Mar 11, 2014
+	 * execute powsershell commandline in local windows. author: zhangyutao
+	 * Created on Mar 11, 2014
 	 * 
 	 * @param timeOutInSeconds
 	 *            the time out to wait the execution
@@ -163,8 +163,8 @@ public class PSClient implements Client {
 	}
 
 	/**
-	 * transform string array to a string. author: zhangyutao Created
-	 * on Mar 11, 2014
+	 * transform string array to a string. author: zhangyutao Created on Mar 11,
+	 * 2014
 	 * 
 	 * @param a
 	 *            array
@@ -182,8 +182,7 @@ public class PSClient implements Client {
 	}
 
 	/**
-	 * check if PS is installed. author: zhangyutao Created on Mar 11,
-	 * 2014
+	 * check if PS is installed. author: zhangyutao Created on Mar 11, 2014
 	 * 
 	 * @throws PSCException
 	 */

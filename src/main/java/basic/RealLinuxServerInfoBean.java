@@ -1,5 +1,4 @@
 
-
 package basic;
 
 public class RealLinuxServerInfoBean {

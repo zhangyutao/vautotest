@@ -1,5 +1,6 @@
-package testcases;
+package business;
 
+import annotations.checkpoint.Elements;
 import annotations.cmd.Line;
 import annotations.email.Message;
 import annotations.httprequest.Body;
@@ -11,6 +12,7 @@ import annotations.httprequest.UseSSL;
 import elements.Command;
 import elements.Email;
 import elements.RestfRequest;
+import elements.ServerCheckpoint;
 
 public class MyList {
 
@@ -30,4 +32,7 @@ public class MyList {
 			"c:\\test.txt", "c:\\test1.txt" })
 	@Message(from = "yu-tao.zhang@xxx.com", to = "yu-tao.zhang@xxx.com", subject = "test2", textBody = "test body")
 	public Email myEmail;
+
+	@Elements(expObj = MyCustomerDBInfo.class, actObj = MyServerInfo.class, comparison = MyServerCPUComp.class)
+	public ServerCheckpoint myserverCheckpoint;
 }

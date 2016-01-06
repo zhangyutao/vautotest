@@ -15,7 +15,7 @@ public class ServerCheckpoint implements DefaultServerCheckpoint {
 	private ServerCheckpointElements content = null;
 
 	private E2EValidationClient e2eValidationClient = null;
-	private Object result = null;
+	private String result = null;
 
 	@Override
 	public ServerCheckpointElements getElements() {
@@ -56,9 +56,9 @@ public class ServerCheckpoint implements DefaultServerCheckpoint {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T getResult() throws Exception {
+	public String getResult() throws Exception {
 		// TODO Auto-generated method stub
-		return (T) this.result;
+		return this.result;
 
 	}
 
