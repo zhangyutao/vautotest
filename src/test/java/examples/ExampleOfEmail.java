@@ -2,10 +2,10 @@ package examples;
 
 import org.testng.annotations.Test;
 import basic.EmailProvider;
-import business.MyList;
 import clients.EmailClient;
 import factories.RequestsFactory;
 import requests.EmailRequest;
+import samples.MyList;
 
 public class ExampleOfEmail {
 

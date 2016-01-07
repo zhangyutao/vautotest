@@ -1,10 +1,11 @@
 package examples;
 
 import org.testng.annotations.Test;
-import business.MyList;
+
 import clients.RestfClient;
 import factories.RequestsFactory;
 import requests.RestfRequest;
+import samples.MyList;
 
 public class ExampleOfRestfulWebservice {
 

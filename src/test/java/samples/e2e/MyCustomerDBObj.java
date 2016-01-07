@@ -1,8 +1,8 @@
-package business.e2e;
+package samples.e2e;
 
 import basic.e2evalidation.EndpointObject;
 
-public class MyServerObj extends EndpointObject {
+public class MyCustomerDBObj extends EndpointObject {
 
 	@Override
 	public String[] getValues() {

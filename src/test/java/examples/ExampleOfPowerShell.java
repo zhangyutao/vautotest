@@ -2,10 +2,10 @@ package examples;
 
 import org.testng.annotations.Test;
 
-import business.MyList;
 import clients.PSClient;
 import factories.RequestsFactory;
 import requests.CommandRequest;
+import samples.MyList;
 
 public class ExampleOfPowerShell {
 

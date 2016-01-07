@@ -3,10 +3,10 @@ package examples;
 import org.testng.annotations.Test;
 
 import basic.scenario.ScenarioStatus;
-import business.MyList;
 import clients.ScenarioClient;
 import factories.RequestsFactory;
 import requests.ScenarioRequest;
+import samples.MyList;
 
 public class ExampleOfScenario {
 

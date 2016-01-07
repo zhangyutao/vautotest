@@ -2,10 +2,10 @@ package examples;
 
 import org.testng.annotations.Test;
 
-import business.MyList;
 import clients.E2EValidationClient;
 import factories.RequestsFactory;
 import requests.E2EValidationRequest;
+import samples.MyList;
 
 public class ExampleOfE2EValidation {
 

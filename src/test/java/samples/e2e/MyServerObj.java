@@ -1,13 +1,13 @@
-package business.scenario;
+package samples.e2e;
 
-import basic.scenario.ScenarioIO;
+import basic.e2evalidation.EndpointObject;
 
-public class MyScenarioOutput extends ScenarioIO {
+public class MyServerObj extends EndpointObject {
 
 	@Override
 	public String[] getValues() {
 		// TODO Auto-generated method stub
-		return new String[] { "this is a output data." };
+		return new String[] { "CPU is 4 core" };
 	}
 
 	@Override
