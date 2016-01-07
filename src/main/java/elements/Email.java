@@ -6,7 +6,7 @@ import basic.DefaultEmailFormat;
 import utilities.EmailClient;
 
 /**
- * this class would support all email message
+ * this class is for defining a email/emails
  * 
  * @author zhangyutao
  *

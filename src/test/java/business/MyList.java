@@ -1,6 +1,6 @@
 package business;
 
-import annotations.checkpoint.Elements;
+import annotations.checkpoint.Items;
 import annotations.cmd.Line;
 import annotations.email.Message;
 import annotations.httprequest.Body;
@@ -9,11 +9,17 @@ import annotations.httprequest.Header;
 import annotations.httprequest.Method;
 import annotations.httprequest.URL;
 import annotations.httprequest.UseSSL;
+import annotations.scenario.Properties;
+import business.e2e.MyCustomerDBObj;
+import business.e2e.MyServerCPUComp;
+import business.e2e.MyServerObj;
+import business.scenario.MyScenario;
+import business.scenario.MyScenarioInput;
 import elements.Command;
 import elements.Email;
 import elements.RestfRequest;
-import elements.ScenarioInstance;
-import elements.ServerCheckpoint;
+import elements.Case;
+import elements.E2ECheckpoint;
 
 public class MyList {
 
@@ -34,9 +40,9 @@ public class MyList {
 	@Message(from = "yu-tao.zhang@xxx.com", to = "yu-tao.zhang@xxx.com", subject = "test2", textBody = "test body")
 	public Email myEmail;
 
-	@Elements(expObj = MyCustomerDBInfo.class, actObj = MyServerInfo.class, comparison = MyServerCPUComp.class)
-	public ServerCheckpoint myserverCheckpoint;
-	
-	@Elements(expObj = MyCustomerDBInfo.class, actObj = MyServerInfo.class, comparison = MyServerCPUComp.class)
-	public ScenarioInstance myScenarioInstance;
+	@Items(expObj = MyCustomerDBObj.class, actObj = MyServerObj.class, comparison = MyServerCPUComp.class)
+	public E2ECheckpoint myserverCheckpoint;
+
+	@Properties(scenarioClass = MyScenario.class, scenarioInput = MyScenarioInput.class, iteration = 2, isConcurrent = false, timeout = 180000)
+	public Case myCase;
 }

@@ -10,7 +10,7 @@ import basic.HttpRequest;
 import utilities.RestfClient;
 
 /**
- * this class would support all http/https type's request
+ * this class is for defining a restful webservice request
  * 
  * @author Linus
  *

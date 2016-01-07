@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
-import annotations.checkpoint.Elements;
+import annotations.checkpoint.Items;
 import annotations.cmd.Line;
 import annotations.cmd.containers.LineContainer;
 import annotations.email.Message;
@@ -20,13 +20,13 @@ import annotations.httprequest.containers.CookieContainer;
 import annotations.httprequest.containers.HeaderContainer;
 import annotations.scenario.Properties;
 import basic.Client;
+import basic.E2ECheckpointElements;
 import basic.Factory;
-import basic.ServerCheckpointElements;
 import elements.Command;
 import elements.Email;
 import elements.RestfRequest;
-import elements.ScenarioInstance;
-import elements.ServerCheckpoint;
+import elements.Case;
+import elements.E2ECheckpoint;
 import utilities.E2EValidationClient;
 import utilities.EmailClient;
 import utilities.PSClient;
@@ -79,7 +79,8 @@ public class ListFactory implements Factory {
 		if (!(Command.class.isAssignableFrom(field.getType()))
 				&& !(RestfRequest.class.isAssignableFrom(field.getType()))
 				&& !(Email.class.isAssignableFrom(field.getType()))
-				&& !(ServerCheckpoint.class.isAssignableFrom(field.getType()))) {
+				&& !(E2ECheckpoint.class.isAssignableFrom(field.getType()))
+				&& !(Case.class.isAssignableFrom(field.getType()))) {
 			return null;
 		}
 
@@ -240,13 +241,13 @@ public class ListFactory implements Factory {
 			} else {
 				return null;
 			}
-		} else if (ServerCheckpoint.class.isAssignableFrom(field.getType())
+		} else if (E2ECheckpoint.class.isAssignableFrom(field.getType())
 				&& (commandClient instanceof E2EValidationClient)) {
-			if (field.getAnnotation(Elements.class) != null) {
-				ServerCheckpoint serverCheckpoint = new ServerCheckpoint();
-				Elements elements = (Elements) field.getAnnotation(Elements.class);
+			if (field.getAnnotation(Items.class) != null) {
+				E2ECheckpoint serverCheckpoint = new E2ECheckpoint();
+				Items elements = (Items) field.getAnnotation(Items.class);
 				if (elements.expObj() != null & elements.actObj() != null & elements.comparison() != null) {
-					ServerCheckpointElements arg = new ServerCheckpointElements();
+					E2ECheckpointElements arg = new E2ECheckpointElements();
 					ArrayList<Object> eles = new ArrayList<Object>();
 					try {
 						eles.add(elements.expObj().newInstance());
@@ -278,17 +279,16 @@ public class ListFactory implements Factory {
 			} else {
 				return null;
 			}
-		} else if (ScenarioInstance.class.isAssignableFrom(field.getType())
-				&& (commandClient instanceof ScenarioClient)) {
+		} else if (Case.class.isAssignableFrom(field.getType()) && (commandClient instanceof ScenarioClient)) {
 			if (field.getAnnotation(Properties.class) != null) {
-				Properties properties = (Properties) field.getAnnotation(Elements.class);
+				Properties properties = (Properties) field.getAnnotation(Properties.class);
 				if (properties.scenarioClass() != null & properties.scenarioInput() != null
 						& properties.iteration() > 0) {
-					ScenarioInstance scenarioInstance = new ScenarioInstance();
-					scenarioInstance.setScenarioClient((ScenarioClient) commandClient);
+					Case thiscase = new Case();
+					thiscase.setScenarioClient((ScenarioClient) commandClient);
 					try {
-						scenarioInstance.setScenario(properties.scenarioClass().newInstance());
-						scenarioInstance.setDatainput(properties.scenarioInput().newInstance());
+						thiscase.setScenario(properties.scenarioClass().newInstance());
+						thiscase.setDatainput(properties.scenarioInput().newInstance());
 					} catch (InstantiationException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -299,10 +299,10 @@ public class ListFactory implements Factory {
 						return null;
 					}
 
-					scenarioInstance.setIteration(properties.iteration());
-					scenarioInstance.setConcurrent(properties.isConcurrent());
-					scenarioInstance.setTimeout(properties.timeout());
-					return scenarioInstance;
+					thiscase.setIteration(properties.iteration());
+					thiscase.setConcurrent(properties.isConcurrent());
+					thiscase.setTimeout(properties.timeout());
+					return thiscase;
 
 				} else {
 					return null;

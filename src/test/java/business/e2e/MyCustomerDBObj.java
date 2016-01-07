@@ -1,8 +1,8 @@
-package business;
+package business.e2e;
 
-import basic.EndpointObject;
+import basic.e2evalidation.EndpointObject;
 
-public class MyServerInfo extends EndpointObject {
+public class MyCustomerDBObj extends EndpointObject {
 
 	@Override
 	public String[] getValues() {

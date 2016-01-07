@@ -14,13 +14,13 @@ public class ExampleOfPowerShell {
 
 		// initiate all elements.
 		PSClient psc = new PSClient();
-		MyList psList = ListFactory.initElements(psc, MyList.class);
-		Command myPS = psList.myCL;
+		MyList list = ListFactory.initElements(psc, MyList.class);
+		Command myPS = list.myCL;
 
-		// print some information of elements
+		// print some information of command
 		System.out.println(myPS.getLines());
 
-		// execute all elements
+		// execute command
 		try {
 			myPS.execute();
 
@@ -28,7 +28,7 @@ public class ExampleOfPowerShell {
 			e.printStackTrace();
 		}
 
-		// print some information of elements
+		// print some response of command
 		try {
 			System.out.println((String) myPS.getResponse());
 

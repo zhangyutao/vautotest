@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import basic.Comparison;
-import basic.EndpointObject;
+import basic.e2evalidation.EndpointObject;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -19,7 +19,7 @@ import basic.EndpointObject;
  * @author Linus
  *
  */
-public @interface Elements {
+public @interface Items {
 
 	Class<? extends EndpointObject> expObj();
 

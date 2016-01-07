@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import basic.Scenario;
-import basic.ScenarioIO;
-import basic.ScenarioResult;
+import basic.Client;
+import basic.scenario.Scenario;
+import basic.scenario.ScenarioIO;
+import basic.scenario.ScenarioResult;
 
 /**
  * the client used to execute a Scenario.java
@@ -16,11 +17,13 @@ import basic.ScenarioResult;
  * 
  * 
  */
-public class ScenarioClient {
+public class ScenarioClient implements Client {
 
 	public ScenarioClient() {
 
 	}
+
+	HashMap<Integer, ScenarioResult> result;
 
 	/**
 	 * Execute the given Scenario
@@ -139,9 +142,32 @@ public class ScenarioClient {
 			try {
 				Thread.sleep(10);
 				scenario.execute();
+				this.output = scenario.getOutput();
 			} catch (Throwable th) {
 				th.printStackTrace();
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public HashMap<Integer, ScenarioResult> getResponse() throws Exception {
+		// TODO Auto-generated method stub
+		return this.result;
+	}
+
+	@Override
+	public void close() throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> void execute(T content) throws Exception {
+		// TODO Auto-generated method stub
+		this.result = execute((Scenario) ((ArrayList<Object>) content).get(0),
+				(ScenarioIO) ((ArrayList<Object>) content).get(1), (int) ((ArrayList<Object>) content).get(2),
+				(boolean) ((ArrayList<Object>) content).get(3), (int) ((ArrayList<Object>) content).get(4));
 	}
 }

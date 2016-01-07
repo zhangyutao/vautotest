@@ -1,21 +1,23 @@
 
 package elements;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import basic.Scenario;
-import basic.ScenarioIO;
-import basic.ScenarioResult;
+
+import basic.scenario.Scenario;
+import basic.scenario.ScenarioIO;
+import basic.scenario.ScenarioResult;
 import utilities.ScenarioClient;
 
 /**
- * the client used to execute a Scenario.java
+ * this class is for defining a scenario
  * 
  * @author zhangyutao
  * 
  * 
  */
-public class ScenarioInstance {
-	public ScenarioInstance() {
+public class Case {
+	public Case() {
 
 	}
 
@@ -74,8 +76,20 @@ public class ScenarioInstance {
 		this.timeout = timeout;
 	}
 
-	public HashMap<Integer, ScenarioResult> execute() {
-		return this.scenarioClient.execute(this.scenario, this.datainput, this.iteration, this.isConcurrent,
-				this.timeout);
+	public void execute() throws Exception {
+		ArrayList<Object> arg = new ArrayList<Object>();
+		arg.add(this.scenario);
+		arg.add(this.datainput);
+		arg.add(this.iteration);
+		arg.add(this.isConcurrent);
+		arg.add(this.timeout);
+		this.scenarioClient.execute(arg);
+
+	}
+
+	public HashMap<Integer, ScenarioResult> getResult() throws Exception {
+		// TODO Auto-generated method stub
+		return this.scenarioClient.getResponse();
+
 	}
 }

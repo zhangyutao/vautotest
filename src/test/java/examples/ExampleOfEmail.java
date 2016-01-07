@@ -14,14 +14,14 @@ public class ExampleOfEmail {
 
 		// initiate all elements.
 		EmailClient ec = new EmailClient(EmailProvider.SMTP, "smtp.xxx.com");
-		MyList emailList = ListFactory.initElements(ec, MyList.class);
-		Email myEmail = emailList.myEmail;
+		MyList list = ListFactory.initElements(ec, MyList.class);
+		Email myEmail = list.myEmail;
 
 		// print some information of elements
 
 		System.out.println(String.valueOf(myEmail.getMessages()));
 
-		// execute all elements
+		// execute email
 		try {
 
 			myEmail.execute();
@@ -30,7 +30,7 @@ public class ExampleOfEmail {
 			e.printStackTrace();
 		}
 
-		// print some information of elements
+		// print some response of email
 		try {
 			System.out.println(String.valueOf(myEmail.getResponses()));
 

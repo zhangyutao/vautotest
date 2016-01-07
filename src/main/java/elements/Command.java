@@ -6,7 +6,7 @@ import basic.Client;
 import basic.DefaultCommand;
 
 /**
- * this class would support all String type's command
+ * this class is for defining a command line/lines
  * 
  * @author zhangyutao
  *

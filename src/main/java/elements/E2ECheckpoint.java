@@ -2,29 +2,29 @@ package elements;
 
 import basic.Client;
 import basic.DefaultServerCheckpoint;
-import basic.ServerCheckpointElements;
+import basic.E2ECheckpointElements;
 import utilities.E2EValidationClient;
 
 /**
- * this class would support all Server checkpoint
+ * this class is for defining end to end checkpoint
  * 
  * @author zhangyutao
  *
  */
-public class ServerCheckpoint implements DefaultServerCheckpoint {
-	private ServerCheckpointElements content = null;
+public class E2ECheckpoint implements DefaultServerCheckpoint {
+	private E2ECheckpointElements content = null;
 
 	private E2EValidationClient e2eValidationClient = null;
 	private String result = null;
 
 	@Override
-	public ServerCheckpointElements getElements() {
+	public E2ECheckpointElements getElements() {
 		// TODO Auto-generated method stub
 		return this.content;
 	}
 
 	@Override
-	public void setElements(ServerCheckpointElements arg) {
+	public void setElements(E2ECheckpointElements arg) {
 		// TODO Auto-generated method stub
 		this.content = arg;
 

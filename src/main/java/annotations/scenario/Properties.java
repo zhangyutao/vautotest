@@ -6,8 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import basic.Scenario;
-import basic.ScenarioIO;
+import basic.scenario.Scenario;
+import basic.scenario.ScenarioIO;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -22,9 +22,13 @@ import basic.ScenarioIO;
 public @interface Properties {
 
 	Class<? extends Scenario> scenarioClass();
+
 	Class<? extends ScenarioIO> scenarioInput();
+
 	int iteration() default 1;
-	boolean isConcurrent() default false; 
+
+	boolean isConcurrent() default false;
+
 	int timeout() default 180000;
-	
+
 }

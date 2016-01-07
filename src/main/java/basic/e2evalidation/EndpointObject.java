@@ -1,4 +1,4 @@
-package basic;
+package basic.e2evalidation;
 
 public abstract class EndpointObject {
 	public abstract String[] getValues();

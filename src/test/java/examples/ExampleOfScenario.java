@@ -2,11 +2,10 @@ package examples;
 
 import org.testng.annotations.Test;
 
+import basic.scenario.ScenarioStatus;
 import business.MyList;
-import elements.ScenarioInstance;
-import elements.ServerCheckpoint;
+import elements.Case;
 import factories.ListFactory;
-import utilities.E2EValidationClient;
 import utilities.ScenarioClient;
 
 public class ExampleOfScenario {
@@ -17,21 +16,33 @@ public class ExampleOfScenario {
 		// initiate all elements.
 
 		ScenarioClient scenarioClient = new ScenarioClient();
-		MyList validationList = ListFactory.initElements(scenarioClient, MyList.class);
-		ScenarioInstance myValidation = validationList.myScenarioInstance;
+		MyList list = ListFactory.initElements(scenarioClient, MyList.class);
+		Case myCase = list.myCase;
 
-		// print some information of elements
-
-		// execute all elements
+		// execute the case
 		try {
-			myValidation.execute();
+			myCase.execute();
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		// print some information of elements
+		// print some result of Scenario
+
 		try {
-			System.out.println(myValidation.getResult());
+			System.out.println("Iteration 1 result:" + myCase.getResult().get(1).getOutput().getValues()[0]);
+			if (myCase.getResult().get(1).getStatus() == ScenarioStatus.Passed) {
+				System.out.println("Passed");
+			} else {
+				System.out.println("not Passed");
+			}
+
+			System.out.println("Iteration 2 result:" + myCase.getResult().get(2).getOutput().getValues()[0]);
+			if (myCase.getResult().get(2).getStatus() == ScenarioStatus.Passed) {
+				System.out.println("Passed");
+			} else {
+				System.out.println("not Passed");
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

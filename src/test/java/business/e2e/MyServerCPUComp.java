@@ -1,9 +1,9 @@
-package business;
+package business.e2e;
 
-import basic.EndpointObject;
-import basic.ServerComparison;
+import basic.e2evalidation.EndpointObject;
+import basic.e2evalidation.E2EComparison;
 
-public class MyServerCPUComp extends ServerComparison {
+public class MyServerCPUComp extends E2EComparison {
 	private String result;
 
 	@Override

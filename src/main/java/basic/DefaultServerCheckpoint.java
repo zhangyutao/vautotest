@@ -8,11 +8,11 @@ package basic;
  */
 
 public interface DefaultServerCheckpoint {
-	ServerCheckpointElements content = null;
+	E2ECheckpointElements content = null;
 
-	ServerCheckpointElements getElements();
+	E2ECheckpointElements getElements();
 
-	void setElements(ServerCheckpointElements arg);
+	void setElements(E2ECheckpointElements arg);
 
 	Client getClient();
 
