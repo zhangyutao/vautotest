@@ -1,31 +1,31 @@
 package business;
 
-import annotations.checkpoint.Items;
-import annotations.cmd.Line;
-import annotations.email.Message;
-import annotations.httprequest.Body;
-import annotations.httprequest.Cookie;
-import annotations.httprequest.Header;
-import annotations.httprequest.Method;
-import annotations.httprequest.URL;
-import annotations.httprequest.UseSSL;
-import annotations.scenario.Properties;
+import annotations.request.cmd.Line;
+import annotations.request.e2evalidation.Items;
+import annotations.request.email.Message;
+import annotations.request.restf.Body;
+import annotations.request.restf.Cookie;
+import annotations.request.restf.Header;
+import annotations.request.restf.Method;
+import annotations.request.restf.URL;
+import annotations.request.restf.UseSSL;
+import annotations.request.scenario.Properties;
 import business.e2e.MyCustomerDBObj;
 import business.e2e.MyServerCPUComp;
 import business.e2e.MyServerObj;
 import business.scenario.MyScenario;
 import business.scenario.MyScenarioInput;
-import elements.Command;
-import elements.Email;
-import elements.RestfRequest;
-import elements.Case;
-import elements.E2ECheckpoint;
+import requests.CommandRequest;
+import requests.E2EValidationRequest;
+import requests.EmailRequest;
+import requests.RestfRequest;
+import requests.ScenarioRequest;
 
 public class MyList {
 
 	@Line("echo \"test1\"")
 	@Line("echo \"test2\"")
-	public Command myCL;
+	public CommandRequest myCL;
 	@Method("get")
 	@URL("https://www.xxx.com")
 	@Body("a test")
@@ -38,11 +38,11 @@ public class MyList {
 	@Message(from = "yu-tao.zhang@xxx.com", to = "yu-tao.zhang@xxx.com", subject = "test1", textBody = "test body", attachmentsPath = {
 			"c:\\test.txt", "c:\\test1.txt" })
 	@Message(from = "yu-tao.zhang@xxx.com", to = "yu-tao.zhang@xxx.com", subject = "test2", textBody = "test body")
-	public Email myEmail;
+	public EmailRequest myEmail;
 
 	@Items(expObj = MyCustomerDBObj.class, actObj = MyServerObj.class, comparison = MyServerCPUComp.class)
-	public E2ECheckpoint myserverCheckpoint;
+	public E2EValidationRequest myserverCheckpoint;
 
-	@Properties(scenarioClass = MyScenario.class, scenarioInput = MyScenarioInput.class, iteration = 2, isConcurrent = false, timeout = 180000)
-	public Case myCase;
+	@Properties(scenario = MyScenario.class, inputdata = MyScenarioInput.class, iteration = 2, isConcurrent = false, timeout = 180000)
+	public ScenarioRequest myScenario;
 }

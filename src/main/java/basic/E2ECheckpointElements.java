@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import basic.e2evalidation.E2EComparison;
 import basic.e2evalidation.EndpointObject;
 
+/**
+ * an class for package information of E2E checkpoint that can be used by
+ * {@link clients.E2EValidationClient}
+ * 
+ * @author zhangyutao
+ *
+ */
 public class E2ECheckpointElements implements CheckpointElements {
 	private ArrayList<Object> elements = new ArrayList<Object>();
 

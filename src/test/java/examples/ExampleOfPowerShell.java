@@ -3,9 +3,9 @@ package examples;
 import org.testng.annotations.Test;
 
 import business.MyList;
-import elements.Command;
-import factories.ListFactory;
-import utilities.PSClient;
+import clients.PSClient;
+import factories.RequestsFactory;
+import requests.CommandRequest;
 
 public class ExampleOfPowerShell {
 
@@ -14,8 +14,8 @@ public class ExampleOfPowerShell {
 
 		// initiate all elements.
 		PSClient psc = new PSClient();
-		MyList list = ListFactory.initElements(psc, MyList.class);
-		Command myPS = list.myCL;
+		MyList list = RequestsFactory.initElements(psc, MyList.class);
+		CommandRequest myPS = list.myCL;
 
 		// print some information of command
 		System.out.println(myPS.getLines());

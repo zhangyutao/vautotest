@@ -4,9 +4,9 @@ import org.testng.annotations.Test;
 
 import basic.scenario.ScenarioStatus;
 import business.MyList;
-import elements.Case;
-import factories.ListFactory;
-import utilities.ScenarioClient;
+import clients.ScenarioClient;
+import factories.RequestsFactory;
+import requests.ScenarioRequest;
 
 public class ExampleOfScenario {
 
@@ -16,8 +16,8 @@ public class ExampleOfScenario {
 		// initiate all elements.
 
 		ScenarioClient scenarioClient = new ScenarioClient();
-		MyList list = ListFactory.initElements(scenarioClient, MyList.class);
-		Case myCase = list.myCase;
+		MyList list = RequestsFactory.initElements(scenarioClient, MyList.class);
+		ScenarioRequest myCase = list.myScenario;
 
 		// execute the case
 		try {

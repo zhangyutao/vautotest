@@ -4,6 +4,13 @@ package basic;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * an bean for store the information of a windows server that can be used by
+ * {@link utilities.RealServerInspector}
+ * 
+ * @author zhangyutao
+ *
+ */
 public class RealWinServerInfoBean {
 	private String hostName;
 	private String timeZone;

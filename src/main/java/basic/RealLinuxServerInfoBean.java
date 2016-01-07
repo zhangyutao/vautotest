@@ -1,6 +1,13 @@
 
 package basic;
 
+/**
+ * an bean for store the information of a linux server that can be used by
+ * {@link utilities.RealServerInspector}
+ * 
+ * @author zhangyutao
+ *
+ */
 public class RealLinuxServerInfoBean {
 
 	private String bit;

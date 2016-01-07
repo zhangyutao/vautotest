@@ -3,9 +3,9 @@ package examples;
 import org.testng.annotations.Test;
 import basic.EmailProvider;
 import business.MyList;
-import elements.Email;
-import factories.ListFactory;
-import utilities.EmailClient;
+import clients.EmailClient;
+import factories.RequestsFactory;
+import requests.EmailRequest;
 
 public class ExampleOfEmail {
 
@@ -14,8 +14,8 @@ public class ExampleOfEmail {
 
 		// initiate all elements.
 		EmailClient ec = new EmailClient(EmailProvider.SMTP, "smtp.xxx.com");
-		MyList list = ListFactory.initElements(ec, MyList.class);
-		Email myEmail = list.myEmail;
+		MyList list = RequestsFactory.initElements(ec, MyList.class);
+		EmailRequest myEmail = list.myEmail;
 
 		// print some information of elements
 

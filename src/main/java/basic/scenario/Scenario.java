@@ -1,5 +1,12 @@
 package basic.scenario;
 
+/**
+ * an abstract class for users to follow to implement themselves' Scenario class
+ * that can be used by {@link clients.ScenarioClient}
+ * 
+ * @author zhangyutao
+ *
+ */
 public abstract class Scenario {
 
 	/**

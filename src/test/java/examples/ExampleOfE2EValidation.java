@@ -3,9 +3,9 @@ package examples;
 import org.testng.annotations.Test;
 
 import business.MyList;
-import elements.E2ECheckpoint;
-import factories.ListFactory;
-import utilities.E2EValidationClient;
+import clients.E2EValidationClient;
+import factories.RequestsFactory;
+import requests.E2EValidationRequest;
 
 public class ExampleOfE2EValidation {
 
@@ -15,8 +15,8 @@ public class ExampleOfE2EValidation {
 		// initiate all elements.
 
 		E2EValidationClient e2eValidationClient = new E2EValidationClient();
-		MyList validationList = ListFactory.initElements(e2eValidationClient, MyList.class);
-		E2ECheckpoint myCheckpoint = validationList.myserverCheckpoint;
+		MyList list = RequestsFactory.initElements(e2eValidationClient, MyList.class);
+		E2EValidationRequest myCheckpoint = list.myserverCheckpoint;
 
 		// print some information of elements
 

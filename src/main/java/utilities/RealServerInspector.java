@@ -10,9 +10,9 @@ import com.hp.ecs.ssh.SecureShellClientException;
 
 import utilities.Utility;
 import basic.WinAuto;
-import elements.Command;
-import factories.ListFactory;
-import basic.LinuxQueryList;
+import clients.SSHClient;
+import factories.RequestsFactory;
+import requests.CommandRequest;
 import basic.RealLinuxServerInfoBean;
 import basic.RealWinServerInfoBean;
 
@@ -67,7 +67,7 @@ public class RealServerInspector {
 		try {
 			sshc = new SSHClient();
 			sshc.openSession(hostname, username, password);
-			linuxQueryList = (LinuxQueryList) ListFactory.initElements(sshc, LinuxQueryList.class);
+			linuxQueryList = (LinuxQueryList) RequestsFactory.initElements(sshc, LinuxQueryList.class);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -109,7 +109,7 @@ public class RealServerInspector {
 		try {
 			sshc = new SSHClient();
 			sshc.openSession(hostname, port, username, password);
-			linuxQueryList = (LinuxQueryList) ListFactory.initElements(sshc, LinuxQueryList.class);
+			linuxQueryList = (LinuxQueryList) RequestsFactory.initElements(sshc, LinuxQueryList.class);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -128,7 +128,7 @@ public class RealServerInspector {
 	 */
 	public void tourLinuxBit() {
 		try {
-			Command query = linuxQueryList.queryBit;
+			CommandRequest query = linuxQueryList.queryBit;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxBit(res);
@@ -148,7 +148,7 @@ public class RealServerInspector {
 	public void tourLinuxCPU() {
 
 		try {
-			Command query = linuxQueryList.queryCPU;
+			CommandRequest query = linuxQueryList.queryCPU;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxCPU(res);
@@ -168,7 +168,7 @@ public class RealServerInspector {
 	public void tourLinuxDNS(String ip) {
 
 		try {
-			Command query = linuxQueryList.queryDNS;
+			CommandRequest query = linuxQueryList.queryDNS;
 			query.setLine(query.getLine().replaceAll(LinuxQueryList.deafultIP.replaceAll("\\.", "\\\\."), ip));
 			query.execute();
 			String res = query.getResponse();
@@ -188,7 +188,7 @@ public class RealServerInspector {
 	public void tourLinuxFloatingIP() {
 
 		try {
-			Command query = linuxQueryList.queryFloatingIP;
+			CommandRequest query = linuxQueryList.queryFloatingIP;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxFloatingIP(res);
@@ -207,7 +207,7 @@ public class RealServerInspector {
 	public void tourLinuxFloatingMac() {
 
 		try {
-			Command query = linuxQueryList.queryFloatingMac;
+			CommandRequest query = linuxQueryList.queryFloatingMac;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxFloatingMac(res);
@@ -226,7 +226,7 @@ public class RealServerInspector {
 	public void tourLinuxHostName() {
 
 		try {
-			Command query = linuxQueryList.queryHostname;
+			CommandRequest query = linuxQueryList.queryHostname;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxHostName(res);
@@ -245,7 +245,7 @@ public class RealServerInspector {
 	public void tourLinuxHosts() {
 
 		try {
-			Command query = linuxQueryList.queryHosts;
+			CommandRequest query = linuxQueryList.queryHosts;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxHosts(res);
@@ -264,7 +264,7 @@ public class RealServerInspector {
 	public void tourLinuxMemory() {
 
 		try {
-			Command query = linuxQueryList.queryMemory;
+			CommandRequest query = linuxQueryList.queryMemory;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxMemory(res);
@@ -283,7 +283,7 @@ public class RealServerInspector {
 	public void tourLinuxNTP() {
 
 		try {
-			Command query = linuxQueryList.queryNTP;
+			CommandRequest query = linuxQueryList.queryNTP;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxNTP(res);
@@ -302,7 +302,7 @@ public class RealServerInspector {
 	public void tourLinuxOSVersion() {
 
 		try {
-			Command query = linuxQueryList.queryOSVersion;
+			CommandRequest query = linuxQueryList.queryOSVersion;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxOSVersion(res);
@@ -321,7 +321,7 @@ public class RealServerInspector {
 	public void tourLinuxPrivateIP() {
 
 		try {
-			Command query = linuxQueryList.queryPrivateIP;
+			CommandRequest query = linuxQueryList.queryPrivateIP;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxPrivateIP(res);
@@ -340,7 +340,7 @@ public class RealServerInspector {
 	public void tourLinuxPrivateMac() {
 
 		try {
-			Command query = linuxQueryList.queryPrivateMac;
+			CommandRequest query = linuxQueryList.queryPrivateMac;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxPrivateMac(res);
@@ -359,7 +359,7 @@ public class RealServerInspector {
 	public void tourLinuxRAM() {
 
 		try {
-			Command query = linuxQueryList.queryRAM;
+			CommandRequest query = linuxQueryList.queryRAM;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxRam(res);
@@ -377,7 +377,7 @@ public class RealServerInspector {
 	 */
 	public void tourLinuxRunLevel() {
 		try {
-			Command query = linuxQueryList.queryRunLevel;
+			CommandRequest query = linuxQueryList.queryRunLevel;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxRunLevel(res);
@@ -395,7 +395,7 @@ public class RealServerInspector {
 	 */
 	public void tourSeLinux() {
 		try {
-			Command query = linuxQueryList.querySeLinux;
+			CommandRequest query = linuxQueryList.querySeLinux;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setSeLinux(res);
@@ -413,7 +413,7 @@ public class RealServerInspector {
 	 */
 	public void tourLinuxStorage() {
 		try {
-			Command query = linuxQueryList.queryStorage;
+			CommandRequest query = linuxQueryList.queryStorage;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxStorage(res);
@@ -431,7 +431,7 @@ public class RealServerInspector {
 	 */
 	public void tourLinuxSwapSize() {
 		try {
-			Command query = linuxQueryList.querySwapSize;
+			CommandRequest query = linuxQueryList.querySwapSize;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxSwapSize(res);
@@ -449,7 +449,7 @@ public class RealServerInspector {
 	 */
 	public void tourLinuxSysconfige() {
 		try {
-			Command query = linuxQueryList.querySysconfig;
+			CommandRequest query = linuxQueryList.querySysconfig;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxSysconfig(res);
@@ -467,7 +467,7 @@ public class RealServerInspector {
 	 */
 	public void tourLinuxTimeZone() {
 		try {
-			Command query = linuxQueryList.queryTimeZone;
+			CommandRequest query = linuxQueryList.queryTimeZone;
 			query.execute();
 			String res = query.getResponse();
 			this.realServerForLinux.setLinuxTimeZone(res);
