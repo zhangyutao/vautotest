@@ -3,9 +3,9 @@ package examples;
 import org.testng.annotations.Test;
 
 import clients.PSClient;
+import examples.classes.lists.MyList;
 import factories.RequestsFactory;
 import requests.CommandRequest;
-import samples.MyList;
 
 public class ExampleOfPowerShell {
 

@@ -4,9 +4,9 @@ import org.testng.annotations.Test;
 
 import basic.scenario.ScenarioStatus;
 import clients.ScenarioClient;
+import examples.classes.lists.MyList;
 import factories.RequestsFactory;
 import requests.ScenarioRequest;
-import samples.MyList;
 
 public class ExampleOfScenario {
 

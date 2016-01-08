@@ -1,13 +1,13 @@
-package samples.scenario;
+package examples.classes.scenario;
 
 import basic.scenario.ScenarioIO;
 
-public class MyScenarioOutput extends ScenarioIO {
+public class MyScenarioInput extends ScenarioIO {
 
 	@Override
 	public String[] getValues() {
 		// TODO Auto-generated method stub
-		return new String[] { "this is a output data." };
+		return new String[] { "this is a input data." };
 	}
 
 	@Override

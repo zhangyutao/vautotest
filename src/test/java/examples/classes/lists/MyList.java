@@ -1,4 +1,4 @@
-package samples;
+package examples.classes.lists;
 
 import annotations.request.cmd.Line;
 import annotations.request.e2evalidation.Items;
@@ -10,16 +10,16 @@ import annotations.request.restf.Method;
 import annotations.request.restf.URL;
 import annotations.request.restf.UseSSL;
 import annotations.request.scenario.Properties;
+import examples.classes.e2e.MyCustomerDBObj;
+import examples.classes.e2e.MyServerCPUComp;
+import examples.classes.e2e.MyServerObj;
+import examples.classes.scenario.MyScenario;
+import examples.classes.scenario.MyScenarioInput;
 import requests.CommandRequest;
 import requests.E2EValidationRequest;
 import requests.EmailRequest;
 import requests.RestfRequest;
 import requests.ScenarioRequest;
-import samples.e2e.MyCustomerDBObj;
-import samples.e2e.MyServerCPUComp;
-import samples.e2e.MyServerObj;
-import samples.scenario.MyScenario;
-import samples.scenario.MyScenarioInput;
 
 public class MyList {
 

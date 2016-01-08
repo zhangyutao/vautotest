@@ -1,4 +1,4 @@
-package samples.scenario;
+package examples.classes.scenario;
 
 import basic.scenario.Scenario;
 import basic.scenario.ScenarioIO;

@@ -114,6 +114,9 @@
 							<outputDirectory>${basedir}/target/classes</outputDirectory>
 							<resources>
 								<resource>
+									<directory>${basedir}/src/test/java</directory>
+								</resource>
+								<resource>
 									<directory>${basedir}/src/main/resources</directory>
 								</resource>
 								<resource>

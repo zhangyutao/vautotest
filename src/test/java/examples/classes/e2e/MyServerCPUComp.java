@@ -1,4 +1,4 @@
-package samples.e2e;
+package examples.classes.e2e;
 
 import basic.e2evalidation.EndpointObject;
 import basic.e2evalidation.E2EComparison;

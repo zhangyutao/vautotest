@@ -3,9 +3,9 @@ package examples;
 import org.testng.annotations.Test;
 
 import clients.E2EValidationClient;
+import examples.classes.lists.MyList;
 import factories.RequestsFactory;
 import requests.E2EValidationRequest;
-import samples.MyList;
 
 public class ExampleOfE2EValidation {
 

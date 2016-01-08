@@ -3,9 +3,9 @@ package examples;
 import org.testng.annotations.Test;
 import basic.EmailProvider;
 import clients.EmailClient;
+import examples.classes.lists.MyList;
 import factories.RequestsFactory;
 import requests.EmailRequest;
-import samples.MyList;
 
 public class ExampleOfEmail {
 
