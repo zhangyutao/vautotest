@@ -144,6 +144,21 @@
 							</resources>
 						</configuration>
 					</execution>
+					<execution>
+						<id>copy-doc</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/classes/doc</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/doc</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
