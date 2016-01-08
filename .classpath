@@ -27,5 +27,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/zhangyutao/CodeSpace/GIT-server/vautotest/ext-deps/ojdbc7.jar"/>
+	<classpathentry kind="lib" path="C:/zhangyutao/CodeSpace/GIT-server/vautotest/ext-deps/powershell-0.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/zhangyutao/CodeSpace/GIT-server/vautotest/ext-deps/restfulwebservice-0.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/zhangyutao/CodeSpace/GIT-server/vautotest/ext-deps/secureshell-0.0.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

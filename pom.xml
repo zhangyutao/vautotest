@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>vautotest</groupId>
 	<artifactId>vautotest</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<dependencies>
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -51,34 +51,15 @@
 			<artifactId>sikulixapi</artifactId>
 			<version>1.1.0</version>
 		</dependency>
-		<dependency>
-			<groupId>restclient</groupId>
-			<artifactId>restclient</artifactId>
-			<version>0.0.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/ext-deps/restfulwebservice-0.0.1.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>powershell</groupId>
-			<artifactId>powershell</artifactId>
-			<version>0.0.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/ext-deps/powershell-0.0.1.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>secureshell</groupId>
-			<artifactId>secureshell</artifactId>
-			<version>0.0.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/ext-deps/secureshell-0.0.1.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>ojdbc</groupId>
-			<artifactId>ojdbc7</artifactId>
-			<version>12.1.0.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/ext-deps/ojdbc7.jar</systemPath>
-		</dependency>
+		<!-- <dependency> <groupId>restclient</groupId> <artifactId>restclient</artifactId> 
+			<version>0.0.1</version> <scope>system</scope> <systemPath>${project.basedir}/ext-deps/restfulwebservice-0.0.1.jar</systemPath> 
+			</dependency> <dependency> <groupId>powershell</groupId> <artifactId>powershell</artifactId> 
+			<version>0.0.1</version> <scope>system</scope> <systemPath>${project.basedir}/ext-deps/powershell-0.0.1.jar</systemPath> 
+			</dependency> <dependency> <groupId>secureshell</groupId> <artifactId>secureshell</artifactId> 
+			<version>0.0.1</version> <scope>system</scope> <systemPath>${project.basedir}/ext-deps/secureshell-0.0.1.jar</systemPath> 
+			</dependency> <dependency> <groupId>ojdbc</groupId> <artifactId>ojdbc7</artifactId> 
+			<version>12.1.0.2</version> <scope>system</scope> <systemPath>${project.basedir}/ext-deps/ojdbc7.jar</systemPath> 
+			</dependency> -->
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
@@ -107,6 +88,9 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<compilerArguments>
+						<extdirs>${project.basedir}/ext-deps</extdirs>
+					</compilerArguments>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -138,6 +122,21 @@
 										<include>**/*.properties</include>
 									</includes>
 									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-extdeps</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/classes</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/ext-deps/classes</directory>
 								</resource>
 							</resources>
 						</configuration>
