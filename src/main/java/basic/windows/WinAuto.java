@@ -1,6 +1,5 @@
-package basic;
+package basic.windows;
 
-import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,7 +13,7 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.sikuli.natives.FindResult;
 import org.sikuli.script.*;
-
+import basic.Config;
 import utilities.Utility;
 
 /**
@@ -26,16 +25,16 @@ import utilities.Utility;
 public class WinAuto {
 
 	private String firstServerIP = "";
-	private String sikulixResolution = "";
-	private String sikulixpath = Config.SIKULIX_PATH;
-	private String allinfobatOfWind = Config.RESOURCEPATH + "/win/";
+	// private String sikulixResolution = "";
+	// private String sikulixpath = Config.SIKULIX_PATH;
+	private String allinfobatOfWind = "";
 	private String styleswitchPath = Config.RESOURCEPATH + "/styleswitch/";
 	private String copyfileplugfolderpath = Config.RESOURCEPATH + "/copyfileplug";
 	private String copyfileplugname = "clipplug.exe";
 	private String copyfileplugpath = copyfileplugfolderpath + "/" + copyfileplugname;
-	private String remotewintowin = "remotewin2008";
-	private String querywintowin = "allinfo2008";
-	private String remotewintowinfulpath = sikulixpath + remotewintowin;
+	// private String remotewintowin = "remotewin2008";
+	// private String querywintowin = "allinfo2008";
+	private String remotewintowinfulpath = "";
 	private String tempfilesfolder = "";
 	private String desktoppath = "%userprofile%\\Desktop\\";
 	private String runselfasadmin = "@echo on" + "\n" + "@echo Run as Admin" + "\n" + "@echo off" + "\n" + "%1 %2"
@@ -123,26 +122,22 @@ public class WinAuto {
 		MouseAdv.move(loc);
 	}
 
-	private void chooseWindAutomationSolution(String osname) {
-		Screen scr = new Screen();
-		Rectangle screenRectangle = scr.getBounds();
-		if (screenRectangle.width * screenRectangle.height == 2073600) {
-			sikulixResolution = "1920x1080";
-		}
-		sikulixResolution = "1920x1080";
-		if (osname.trim().contains("wind08") || osname.trim().contains("2008")) {
-			querywintowin = "allinfo2008.bat";
-
-			remotewintowin = "remotewin2008";
-			remotewintowinfulpath = sikulixpath + remotewintowin + "/" + sikulixResolution;
-		} else if (osname.trim().contains("wind12") || osname.trim().contains("2012")) {
-			querywintowin = "allinfo2012.bat";
-			remotewintowin = "remotewin2012";
-			remotewintowinfulpath = sikulixpath + remotewintowin + "/" + sikulixResolution;
+	private void chooseWindAutomationSolution(WindowsType wt) {
+		/*
+		 * Screen scr = new Screen();
+		 *
+		 * Rectangle screenRectangle = scr.getBounds(); if
+		 * (screenRectangle.width * screenRectangle.height == 2073600) {
+		 * sikulixResolution = "1920x1080"; } sikulixResolution = "1920x1080";
+		 */
+		if (wt == WindowsType.win2008) {
+			allinfobatOfWind = WinBatTemplate.win2008.getPath();
+			remotewintowinfulpath = WinResolution.win2008of1920x1080.getPath();
+		} else if (wt == WindowsType.win2012) {
+			allinfobatOfWind = WinBatTemplate.win2012.getPath();
+			remotewintowinfulpath = WinResolution.win2012of1920x1080.getPath();
 		} else {
-			querywintowin = "allinfo2008.bat";
-			remotewintowin = "remotewin2008";
-			remotewintowinfulpath = sikulixpath + remotewintowin + "/" + sikulixResolution;
+			throw new IllegalArgumentException("Error parameter");
 		}
 	}
 
@@ -400,9 +395,11 @@ public class WinAuto {
 		return res;
 	}
 
-	private boolean localToRemoteServer(String currentosanme, String serverip, String username, String password,
-			String nextosname) throws InterruptedException {
-		chooseWindAutomationSolution(currentosanme);
+	private boolean localToRemoteServer(WindowsType currentWT, String serverip, String username, String password,
+			WindowsType nextWT) throws InterruptedException {
+		chooseWindAutomationSolution(currentWT);
+		String currentosanme = currentWT.getName();
+		String nextosname = nextWT.getName();
 		System.out.println("current os is " + currentosanme + ", target os is " + nextosname + ".");
 		boolean remoteScr = false;
 		String time = Utility.getCurrentTime().replaceAll(":", "-");
@@ -456,7 +453,7 @@ public class WinAuto {
 
 					Thread.sleep(100);
 					if (inputPasswordAndConfirm((RegionAdv) credentialsInputWindow[0], password)) {
-						chooseWindAutomationSolution(nextosname);
+						chooseWindAutomationSolution(nextWT);
 						remoteScr = waitRemoteServerShowed(currentscr, serverip);
 						if (!remoteScr) {
 							throw new IllegalArgumentException("remote desktop is not showed correcly.");
@@ -492,9 +489,11 @@ public class WinAuto {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public boolean remoteToServer(String currentosanme, String serverip, String username, String password,
-			String nextosname) throws InterruptedException {
-		chooseWindAutomationSolution(currentosanme);
+	public boolean remoteToServer(WindowsType currentWT, String serverip, String username, String password,
+			WindowsType nextWT) throws InterruptedException {
+		chooseWindAutomationSolution(currentWT);
+		String currentosanme = currentWT.getName();
+		String nextosname = nextWT.getName();
 		System.out.println("current os is " + currentosanme + ", target os is " + nextosname + ".");
 		boolean res = false;
 		String time = Utility.getCurrentTime().replaceAll(":", "-");
@@ -523,7 +522,7 @@ public class WinAuto {
 
 				if (!(credentialsInputWindow == null)) {
 					if (inputPasswordAndConfirm((RegionAdv) credentialsInputWindow[0], password)) {
-						chooseWindAutomationSolution(nextosname);
+						chooseWindAutomationSolution(nextWT);
 						res = waitRemoteServerShowed(currentscr, serverip);
 						if (!res) {
 							throw new IllegalArgumentException("remote desktop is not showed correcly.");
@@ -1306,11 +1305,36 @@ public class WinAuto {
 	 * @throws InterruptedException
 	 */
 	public String queryAllInfoOfWindows() throws InterruptedException {
-		File cmdBat = new File(allinfobatOfWind + querywintowin);
+		File cmdBat = new File(allinfobatOfWind);
 		String res = "";
 		String content = "";
 		try {
 			content = FileUtils.readFileToString(cmdBat);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!content.equals("")) {
+			res = runBATThroughWinRun(content);
+		}
+		return res;
+	}
+
+	/**
+	 * use a user-defined .bat file to query. if you have your self query,
+	 * please edit it in the paramter {@link #bat}.
+	 * 
+	 * @param bat
+	 * @return - all the information of .txt file which is generated by the
+	 *         .bat.
+	 * @throws InterruptedException
+	 */
+	public String queryInfoOfWindows(WindowsBAT bat) throws InterruptedException {
+
+		String res = "";
+		String content = "";
+		try {
+			content = FileUtils.readFileToString(bat.getBatFile());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1886,8 +1910,8 @@ public class WinAuto {
 			String provisionedServerIP, String provisionedServerUser, String provisionedServerPWD)
 					throws InterruptedException {
 
-		return logonWindServerThroughJumpStation("2008", jsIP, jsUser, jsPassword, "2008", provisionedServerIP,
-				provisionedServerUser, provisionedServerPWD, "2008");
+		return logonWindServerThroughJumpStation(WindowsType.win2008, jsIP, jsUser, jsPassword, WindowsType.win2008,
+				provisionedServerIP, provisionedServerUser, provisionedServerPWD, WindowsType.win2008);
 	}
 
 	// the user of js and provisioned server must be admin which can run cmd as
@@ -1907,20 +1931,21 @@ public class WinAuto {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public boolean logonWindServerThroughJumpStation(String localosname, String jsIP, String jsUser, String jsPassword,
-			String jsosname, String provisionedServerIP, String provisionedServerUser, String provisionedServerPWD,
-			String provisionedserverosname) throws InterruptedException {
+	public boolean logonWindServerThroughJumpStation(WindowsType localWT, String jsIP, String jsUser, String jsPassword,
+			WindowsType jumpWT, String provisionedServerIP, String provisionedServerUser, String provisionedServerPWD,
+			WindowsType provisionedWT) throws InterruptedException {
 
 		boolean res = false;
 		minAllWindows();
-		if (!localToRemoteServer(localosname, jsIP, jsUser, jsPassword, jsosname)) {
+
+		if (!localToRemoteServer(localWT, jsIP, jsUser, jsPassword, jumpWT)) {
 			res = false;
 			throw new IllegalArgumentException("failed to log on Jump Station: " + jsIP);
 
 		} else {
 			minAllWindows();
-			if (!remoteToServer(jsosname, provisionedServerIP, provisionedServerUser, provisionedServerPWD,
-					provisionedserverosname)) {
+			if (!remoteToServer(jumpWT, provisionedServerIP, provisionedServerUser, provisionedServerPWD,
+					provisionedWT)) {
 				res = false;
 				throw new IllegalArgumentException("failed to log on backend server: " + provisionedServerIP);
 
@@ -1944,8 +1969,8 @@ public class WinAuto {
 	public boolean logonWindServerFromLocal(String provisionedServerIP, String provisionedServerUser,
 			String provisionedServerPWD) throws InterruptedException {
 
-		return logonWindServerFromLocal("2008", provisionedServerIP, provisionedServerUser, provisionedServerPWD,
-				"2008");
+		return logonWindServerFromLocal(WindowsType.win2008, provisionedServerIP, provisionedServerUser,
+				provisionedServerPWD, WindowsType.win2008);
 	}
 
 	/**
@@ -1959,16 +1984,16 @@ public class WinAuto {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public boolean logonWindServerFromLocal(String localosname, String provisionedServerIP,
-			String provisionedServerUser, String provisionedServerPWD, String provisionedserverosname)
+	public boolean logonWindServerFromLocal(WindowsType localWT, String provisionedServerIP,
+			String provisionedServerUser, String provisionedServerPWD, WindowsType provisionedWT)
 					throws InterruptedException {
 
 		boolean res = false;
 		minAllWindows();
 
 		Thread.sleep(100);
-		if (!localToRemoteServer(localosname, provisionedServerIP, provisionedServerUser, provisionedServerPWD,
-				provisionedserverosname)) {
+		if (!localToRemoteServer(localWT, provisionedServerIP, provisionedServerUser, provisionedServerPWD,
+				provisionedWT)) {
 			res = false;
 			throw new IllegalArgumentException("failed to log on backend Station: " + provisionedServerUser);
 

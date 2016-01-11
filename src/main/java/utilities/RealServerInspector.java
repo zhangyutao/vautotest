@@ -9,12 +9,13 @@ import org.w3c.dom.NodeList;
 import com.hp.ecs.ssh.SecureShellClientException;
 
 import utilities.Utility;
-import basic.WinAuto;
 import clients.SSHClient;
 import factories.RequestsFactory;
 import requests.CommandRequest;
 import basic.RealLinuxServerInfoBean;
 import basic.RealWinServerInfoBean;
+import basic.windows.WinAuto;
+import basic.windows.WindowsType;
 
 /**
  * a Inspector for get real server's information .
@@ -487,8 +488,8 @@ public class RealServerInspector {
 
 	// this method must be used under a windows which performance option of
 	// visual effects is whole turned off.
-	public boolean connectToWinServer(String localosname, String destServerIP, String destServerUserName,
-			String destServerPassword, String psosname) throws Exception {
+	public boolean connectToWinServer(WindowsType localWT, String destServerIP, String destServerUserName,
+			String destServerPassword, WindowsType provisionedWT) throws Exception {
 		boolean res = false;
 		wa = new WinAuto("");
 
@@ -501,7 +502,7 @@ public class RealServerInspector {
 		}
 
 		Thread.sleep(100);
-		if (wa.logonWindServerFromLocal(localosname, destServerIP, destServerUserName, destServerPassword, psosname)) {
+		if (wa.logonWindServerFromLocal(localWT, destServerIP, destServerUserName, destServerPassword, provisionedWT)) {
 			res = true;
 		} else {
 			res = false;
@@ -511,9 +512,9 @@ public class RealServerInspector {
 		return res;
 	}
 
-	public boolean connectToWinServerThroughWinJumpStation(String localosname, String jumpstationip,
-			String jumpstationusername, String jumpstationpassword, String jsosname, String destServerIP,
-			String destServerUserName, String destServerPassword, String psosname) throws Exception {
+	public boolean connectToWinServerThroughWinJumpStation(WindowsType localWT, String jumpstationip,
+			String jumpstationusername, String jumpstationpassword, WindowsType jumpWT, String destServerIP,
+			String destServerUserName, String destServerPassword, WindowsType provisionedWT) throws Exception {
 		boolean res = false;
 		wa = new WinAuto("");
 
@@ -524,8 +525,8 @@ public class RealServerInspector {
 			this.realServerForWin = new RealWinServerInfoBean();
 		}
 
-		if (wa.logonWindServerThroughJumpStation(localosname, jumpstationip, jumpstationusername, jumpstationpassword,
-				jsosname, destServerIP, destServerUserName, destServerPassword, psosname)) {
+		if (wa.logonWindServerThroughJumpStation(localWT, jumpstationip, jumpstationusername, jumpstationpassword,
+				jumpWT, destServerIP, destServerUserName, destServerPassword, provisionedWT)) {
 
 			res = true;
 		} else {
