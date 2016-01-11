@@ -9,7 +9,7 @@ public class MyServerCPUComp extends E2EComparison {
 	@Override
 	public void compare(EndpointObject expObj, EndpointObject actObj) throws Exception {
 		// TODO Auto-generated method stub
-		if (expObj.getValues()[0].equals(expObj.getValues()[0])) {
+		if (expObj.getValues()[0].equals(actObj.getValues()[0])) {
 			this.result = "passed";
 		} else {
 			this.result = "failed";
