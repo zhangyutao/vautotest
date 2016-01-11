@@ -20,8 +20,12 @@ import annotations.request.restf.URL;
 import annotations.request.restf.UseSSL;
 import annotations.request.scenario.Properties;
 import basic.Client;
+import basic.Comparison;
 import basic.E2ECheckpointElements;
 import basic.Factory;
+import basic.e2evalidation.EndpointObject;
+import basic.scenario.Scenario;
+import basic.scenario.ScenarioIO;
 import clients.E2EValidationClient;
 import clients.EmailClient;
 import clients.PSClient;
@@ -49,27 +53,45 @@ import java.util.Map;
  *
  */
 public class RequestsFactory implements Factory {
-	public static <T> T initElements(Client commandClient, Class<T> CommandLineListClass) {
+	public static <T> T initElements(Client client, Class<T> requestsList) {
 		T list = null;
 
 		try {
+			Constructor<T> constructor = requestsList.getConstructor();
+			list = constructor.newInstance();
+		} catch (NoSuchMethodException e) {
 			try {
-				Constructor<T> constructor = CommandLineListClass.getConstructor();
-				list = constructor.newInstance();
-			} catch (NoSuchMethodException e) {
-				list = CommandLineListClass.newInstance();
+				list = requestsList.newInstance();
+			} catch (InstantiationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				throw new RuntimeException(e1);
+			} catch (IllegalAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				throw new RuntimeException(e1);
 			}
 		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 
 		Field[] fields = list.getClass().getDeclaredFields();
 		for (Field field : fields) {
-			Object value = decorate(commandClient, field);
+			Object value = decorate(client, field);
 			if (value != null) {
 				try {
 					field.setAccessible(true);
@@ -259,17 +281,37 @@ public class RequestsFactory implements Factory {
 					E2ECheckpointElements arg = new E2ECheckpointElements();
 					ArrayList<Object> eles = new ArrayList<Object>();
 					try {
-						eles.add(elements.expObj().newInstance());
-						eles.add(elements.actObj().newInstance());
-						eles.add(elements.comparison().newInstance());
+
+						try {
+							Constructor<? extends EndpointObject> constructor1 = elements.expObj().getConstructor();
+							Constructor<? extends EndpointObject> constructor2 = elements.actObj().getConstructor();
+							Constructor<? extends Comparison> constructor3 = elements.comparison().getConstructor();
+							eles.add(constructor1.newInstance());
+							eles.add(constructor2.newInstance());
+							eles.add(constructor3.newInstance());
+						} catch (NoSuchMethodException e) {
+							eles.add(elements.expObj().newInstance());
+							eles.add(elements.actObj().newInstance());
+							eles.add(elements.comparison().newInstance());
+						} catch (IllegalArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							throw new RuntimeException(e);
+						} catch (InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							throw new RuntimeException(e);
+						}
+
 					} catch (InstantiationException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-						return null;
+						throw new RuntimeException(e1);
+
 					} catch (IllegalAccessException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-						return null;
+						throw new RuntimeException(e1);
 					}
 					try {
 						arg.setElements(eles);
@@ -306,6 +348,43 @@ public class RequestsFactory implements Factory {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 						return null;
+					}
+					try {
+						Constructor<? extends Scenario> constructor1 = properties.scenario().getConstructor();
+						Constructor<? extends ScenarioIO> constructor2 = properties.inputdata().getConstructor();
+
+						thiscase.setScenario(constructor1.newInstance());
+						thiscase.setDatainput(constructor2.newInstance());
+					} catch (NoSuchMethodException e) {
+						try {
+							thiscase.setScenario(properties.scenario().newInstance());
+							thiscase.setDatainput(properties.inputdata().newInstance());
+						} catch (InstantiationException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							throw new RuntimeException(e);
+						} catch (IllegalAccessException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							throw new RuntimeException(e);
+						}
+
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						throw new RuntimeException(e);
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						throw new RuntimeException(e);
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						throw new RuntimeException(e);
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						throw new RuntimeException(e);
 					}
 
 					thiscase.setIteration(properties.iteration());
