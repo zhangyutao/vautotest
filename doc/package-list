@@ -9,6 +9,7 @@ annotations.request.scenario
 basic
 basic.e2evalidation
 basic.scenario
+basic.winrd
 clients
 examples
 examples.classes.e2e
