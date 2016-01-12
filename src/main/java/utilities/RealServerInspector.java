@@ -14,8 +14,8 @@ import factories.RequestsFactory;
 import requests.CommandRequest;
 import basic.RealLinuxServerInfoBean;
 import basic.RealWinServerInfoBean;
-import basic.windows.WinRDAuto;
-import basic.windows.WinType;
+import basic.winrd.WinRDAuto;
+import basic.winrd.WinRDAutoSchema;
 
 /**
  * a Inspector for get real server's information .
@@ -486,10 +486,8 @@ public class RealServerInspector {
 		}
 	}
 
-	// this method must be used under a windows which performance option of
-	// visual effects is whole turned off.
-	public boolean connectToWinRemoteDesktop(WinType localWT, String destServerIP, String destServerUserName,
-			String destServerPassword, WinType destServerWT) throws Exception {
+	public boolean connectToWinRemoteDesktop(WinRDAutoSchema localWS, String destServerIP, String destServerUserName,
+			String destServerPassword, WinRDAutoSchema destServerWS) throws Exception {
 		boolean res = false;
 		winRD = new WinRDAuto("");
 
@@ -502,7 +500,7 @@ public class RealServerInspector {
 		}
 
 		Thread.sleep(100);
-		if (winRD.logonRemoteDesktop(localWT, destServerIP, destServerUserName, destServerPassword, destServerWT)) {
+		if (winRD.logonRemoteDesktop(localWS, destServerIP, destServerUserName, destServerPassword, destServerWS)) {
 			res = true;
 		} else {
 			res = false;
@@ -512,9 +510,9 @@ public class RealServerInspector {
 		return res;
 	}
 
-	public boolean connectToWinRemoteDesktop(WinType localWT, String jumpstationip, String jumpstationusername,
-			String jumpstationpassword, WinType jumpWT, String destServerIP, String destServerUserName,
-			String destServerPassword, WinType destServerWT) throws Exception {
+	public boolean connectToWinRemoteDesktop(WinRDAutoSchema localWS, String jumpstationip, String jumpstationusername,
+			String jumpstationpassword, WinRDAutoSchema jumpWS, String destServerIP, String destServerUserName,
+			String destServerPassword, WinRDAutoSchema destServerWS) throws Exception {
 		boolean res = false;
 		winRD = new WinRDAuto("");
 
@@ -525,8 +523,8 @@ public class RealServerInspector {
 			this.realServerForWin = new RealWinServerInfoBean();
 		}
 
-		if (winRD.logonRemoteDesktop(localWT, jumpstationip, jumpstationusername, jumpstationpassword, jumpWT,
-				destServerIP, destServerUserName, destServerPassword, destServerWT)) {
+		if (winRD.logonRemoteDesktop(localWS, jumpstationip, jumpstationusername, jumpstationpassword, jumpWS,
+				destServerIP, destServerUserName, destServerPassword, destServerWS)) {
 
 			res = true;
 		} else {

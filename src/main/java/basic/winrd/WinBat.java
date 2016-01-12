@@ -1,8 +1,14 @@
-package basic.windows;
+package basic.winrd;
 
 import java.io.File;
 import basic.Config;
 
+/**
+ * Use for instancing your self bat file for {@link #WinRDAuto} to use.
+ * 
+ * @author zhangyutao
+ *
+ */
 public class WinBat {
 	private static String templatefolder = Config.RESOURCEPATH + "/win/";
 
@@ -40,10 +46,10 @@ public class WinBat {
 	public static File getTemplate(WinBatTemplate wbt) {
 		String filePath = "";
 		switch (wbt) {
-		case win2008:
+		case W2008ALLINFO:
 			filePath = templatefolder + "allinfo2008.bat";
 			break;
-		case win2012:
+		case W2012ALLINFO:
 			filePath = templatefolder + "allinfo2012.bat";
 			break;
 		default:

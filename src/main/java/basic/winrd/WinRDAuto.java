@@ -1,4 +1,4 @@
-package basic.windows;
+package basic.winrd;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -24,8 +24,8 @@ import utilities.Utility;
  */
 public class WinRDAuto {
 
-	private String firstServerIP = "";
-	private String allinfobatOfWind = "";
+	private String localDesktopIP = "";
+	private String pathOfAllInfoBatFile = "";
 	private String styleswitchPath = Config.RESOURCEPATH + "/styleswitch/";
 	private String copyfileplugfolderpath = Config.RESOURCEPATH + "/copyfileplug";
 	private String copyfileplugname = "clipplug.exe";
@@ -50,6 +50,10 @@ public class WinRDAuto {
 	private String tellClipError2 = "@e2";
 
 	public WinRDAuto(String pathOfTempfiles) throws Exception {
+		/*
+		 * use tools to set local desktop to no ClearType font and basic windows
+		 * theme.
+		 */
 		try {
 			String osname = System.getProperty("os.name");
 			String styleswitchAbaPath = (new File(styleswitchPath)).getAbsolutePath();
@@ -91,7 +95,7 @@ public class WinRDAuto {
 		InetAddress addr;
 		try {
 			addr = InetAddress.getLocalHost();
-			firstServerIP = addr.getHostAddress();
+			localDesktopIP = addr.getHostAddress();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -127,28 +131,29 @@ public class WinRDAuto {
 	public boolean logonRemoteDesktop(String destServerIP, String destServerUser, String destServerPWD)
 			throws InterruptedException {
 
-		return logonRemoteDesktop(WinType.win2008, destServerIP, destServerUser, destServerPWD, WinType.win2008);
+		return logonRemoteDesktop(WinRDAutoSchema.W2008R1920X1080, destServerIP, destServerUser, destServerPWD,
+				WinRDAutoSchema.W2008R1920X1080);
 	}
 
 	/**
 	 * logon a Remote Desktop
 	 * 
-	 * @param localWT
+	 * @param localWS
 	 * @param destServerIP
 	 * @param destServerUser
 	 * @param destServerPWD
-	 * @param destServerWT
+	 * @param destServerWS
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public boolean logonRemoteDesktop(WinType localWT, String destServerIP, String destServerUser, String destServerPWD,
-			WinType destServerWT) throws InterruptedException {
+	public boolean logonRemoteDesktop(WinRDAutoSchema localWS, String destServerIP, String destServerUser,
+			String destServerPWD, WinRDAutoSchema destServerWS) throws InterruptedException {
 
 		boolean res = false;
 		minAllWindows();
 
 		Thread.sleep(100);
-		if (!localToRemoteServer(localWT, destServerIP, destServerUser, destServerPWD, destServerWT)) {
+		if (!localToRemoteServer(localWS, destServerIP, destServerUser, destServerPWD, destServerWS)) {
 			res = false;
 			throw new IllegalArgumentException("failed to log on Remote Desktop: " + destServerUser);
 
@@ -176,8 +181,9 @@ public class WinRDAuto {
 	public boolean logonRemoteDesktop(String jsIP, String jsUser, String jsPassword, String destServerIP,
 			String destServerUser, String destServerPWD) throws InterruptedException {
 
-		return logonRemoteDesktop(WinType.win2008, jsIP, jsUser, jsPassword, WinType.win2008, destServerIP,
-				destServerUser, destServerPWD, WinType.win2008);
+		return logonRemoteDesktop(WinRDAutoSchema.W2008R1920X1080, jsIP, jsUser, jsPassword,
+				WinRDAutoSchema.W2008R1920X1080, destServerIP, destServerUser, destServerPWD,
+				WinRDAutoSchema.W2008R1920X1080);
 	}
 
 	// the user of js and destServer must be admin which can run cmd as
@@ -185,7 +191,7 @@ public class WinRDAuto {
 	/**
 	 * logon a Remote Desktop through a windows jump station's Remote Desktop
 	 * 
-	 * @param localWT
+	 * @param localWS
 	 * @param jsIP
 	 * @param jsUser
 	 * @param jsPassword
@@ -193,24 +199,24 @@ public class WinRDAuto {
 	 * @param destServerIP
 	 * @param destServerUser
 	 * @param destServerPWD
-	 * @param destServerWT
+	 * @param destServerWS
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public boolean logonRemoteDesktop(WinType localWT, String jsIP, String jsUser, String jsPassword, WinType jumpWT,
-			String destServerIP, String destServerUser, String destServerPWD, WinType destServerWT)
-					throws InterruptedException {
+	public boolean logonRemoteDesktop(WinRDAutoSchema localWS, String jsIP, String jsUser, String jsPassword,
+			WinRDAutoSchema jumpWS, String destServerIP, String destServerUser, String destServerPWD,
+			WinRDAutoSchema destServerWS) throws InterruptedException {
 
 		boolean res = false;
 		minAllWindows();
 
-		if (!localToRemoteServer(localWT, jsIP, jsUser, jsPassword, jumpWT)) {
+		if (!localToRemoteServer(localWS, jsIP, jsUser, jsPassword, jumpWS)) {
 			res = false;
 			throw new IllegalArgumentException("failed to log on Jump Station: " + jsIP);
 
 		} else {
 			minAllWindows();
-			if (!remoteToServer(jumpWT, destServerIP, destServerUser, destServerPWD, destServerWT)) {
+			if (!remoteToServer(jumpWS, destServerIP, destServerUser, destServerPWD, destServerWS)) {
 				res = false;
 				throw new IllegalArgumentException("failed to log on Remote Desktop: " + destServerIP);
 
@@ -259,7 +265,7 @@ public class WinRDAuto {
 	 * @throws InterruptedException
 	 */
 	public String queryAllInfo() throws InterruptedException {
-		File cmdBat = new File(allinfobatOfWind);
+		File cmdBat = new File(pathOfAllInfoBatFile);
 		String res = "";
 		String content = "";
 		try {
@@ -299,23 +305,9 @@ public class WinRDAuto {
 		return res;
 	}
 
-	private void chooseWindAutomationSolution(WinType wt) {
-		/*
-		 * Screen scr = new Screen();
-		 *
-		 * Rectangle screenRectangle = scr.getBounds(); if
-		 * (screenRectangle.width * screenRectangle.height == 2073600) {
-		 * sikulixResolution = "1920x1080"; } sikulixResolution = "1920x1080";
-		 */
-		if (wt == WinType.win2008) {
-			allinfobatOfWind = WinBatTemplate.win2008.getPath();
-			remotewintowinfulpath = WinResolution.W2008R1920X1080.getPath();
-		} else if (wt == WinType.win2012) {
-			allinfobatOfWind = WinBatTemplate.win2012.getPath();
-			remotewintowinfulpath = WinResolution.W2012R1920X1080.getPath();
-		} else {
-			throw new IllegalArgumentException("Error parameter");
-		}
+	private void chooseWindAutomationSolution(WinRDAutoSchema ws) {
+		pathOfAllInfoBatFile = ws.getDefaultWinBat().getPath();
+		remotewintowinfulpath = ws.getImagePath();
 	}
 
 	private String ltsbat(String backendIP, String username, String pathOfBat) {
@@ -587,11 +579,11 @@ public class WinRDAuto {
 		return res;
 	}
 
-	private boolean localToRemoteServer(WinType currentWT, String serverip, String username, String password,
-			WinType nextWT) throws InterruptedException {
-		chooseWindAutomationSolution(currentWT);
-		String currentosanme = currentWT.getName();
-		String nextosname = nextWT.getName();
+	private boolean localToRemoteServer(WinRDAutoSchema currentWS, String serverip, String username, String password,
+			WinRDAutoSchema nextWS) throws InterruptedException {
+		chooseWindAutomationSolution(currentWS);
+		String currentosanme = currentWS.getWinType().getName();
+		String nextosname = nextWS.getWinType().getName();
 		System.out.println("current os is " + currentosanme + ", target os is " + nextosname + ".");
 		boolean remoteScr = false;
 		String time = Utility.getCurrentTime().replaceAll(":", "-");
@@ -645,7 +637,7 @@ public class WinRDAuto {
 
 					Thread.sleep(100);
 					if (inputPasswordAndConfirm((RegionAdv) credentialsInputWindow[0], password)) {
-						chooseWindAutomationSolution(nextWT);
+						chooseWindAutomationSolution(nextWS);
 						remoteScr = waitRemoteServerShowed(currentscr, serverip);
 						if (!remoteScr) {
 							throw new IllegalArgumentException("remote desktop is not showed correcly.");
@@ -681,11 +673,11 @@ public class WinRDAuto {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	private boolean remoteToServer(WinType currentWT, String serverip, String username, String password, WinType nextWT)
-			throws InterruptedException {
-		chooseWindAutomationSolution(currentWT);
-		String currentosanme = currentWT.getName();
-		String nextosname = nextWT.getName();
+	private boolean remoteToServer(WinRDAutoSchema currentWS, String serverip, String username, String password,
+			WinRDAutoSchema nextWS) throws InterruptedException {
+		chooseWindAutomationSolution(currentWS);
+		String currentosanme = currentWS.getWinType().getName();
+		String nextosname = nextWS.getWinType().getName();
 		System.out.println("current os is " + currentosanme + ", target os is " + nextosname + ".");
 		boolean res = false;
 		String time = Utility.getCurrentTime().replaceAll(":", "-");
@@ -714,7 +706,7 @@ public class WinRDAuto {
 
 				if (!(credentialsInputWindow == null)) {
 					if (inputPasswordAndConfirm((RegionAdv) credentialsInputWindow[0], password)) {
-						chooseWindAutomationSolution(nextWT);
+						chooseWindAutomationSolution(nextWS);
 						res = waitRemoteServerShowed(currentscr, serverip);
 						if (!res) {
 							throw new IllegalArgumentException("remote desktop is not showed correcly.");
@@ -1122,7 +1114,7 @@ public class WinRDAuto {
 						findRS = true;
 						System.out.println("Remote Server is ready for use: " + serverip);
 					} else {
-						if (!clipC.trim().contains(firstServerIP)) {
+						if (!clipC.trim().contains(localDesktopIP)) {
 							String logoffcmd = "logoff";
 							winRunByUsingClip(logoffcmd);
 							throw new IllegalArgumentException("The server logged in is not server: " + serverip

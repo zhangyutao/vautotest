@@ -1,6 +1,13 @@
-package basic.windows;
+package basic.winrd;
 
-public enum WinType {
+/**
+ * provide the information of windows system type which {@link #WinRDAuto}
+ * supports.
+ * 
+ * @author zhangyutao
+ *
+ */
+enum WinType {
 	win2008("2008"), win2012("2012");
 
 	private String name;
