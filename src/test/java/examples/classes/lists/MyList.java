@@ -43,6 +43,7 @@ public class MyList {
 	@Items(expObj = MyCustomerDBObj.class, actObj = MyServerObj.class, comparison = MyServerCPUComp.class)
 	public E2EValidationRequest myserverCheckpoint;
 
-	@Properties(scenario = MyScenario.class, inputDatas = {MyScenarioInput.class,MyScenarioInput.class}, iteration = 2, isConcurrent = false, timeout = 180000)
+	@Properties(scenario = MyScenario.class, inputDatas = { MyScenarioInput.class,
+			MyScenarioInput.class }, iteration = 2, isConcurrent = false, timeout = 180000)
 	public ScenarioRequest myScenario;
 }

@@ -22,39 +22,34 @@ import utilities.Utility;
  * @author zhangyutao
  *
  */
-public class WinAuto {
+public class WinRDAuto {
 
 	private String firstServerIP = "";
-	// private String sikulixResolution = "";
-	// private String sikulixpath = Config.SIKULIX_PATH;
 	private String allinfobatOfWind = "";
 	private String styleswitchPath = Config.RESOURCEPATH + "/styleswitch/";
 	private String copyfileplugfolderpath = Config.RESOURCEPATH + "/copyfileplug";
 	private String copyfileplugname = "clipplug.exe";
 	private String copyfileplugpath = copyfileplugfolderpath + "/" + copyfileplugname;
-	// private String remotewintowin = "remotewin2008";
-	// private String querywintowin = "allinfo2008";
+
 	private String remotewintowinfulpath = "";
-	private String tempfilesfolder = "";
+	private String tempfilesfolder = "tempfiles";
+	private String tempfilesPath = tempfilesfolder + "/";
 	private String desktoppath = "%userprofile%\\Desktop\\";
 	private String runselfasadmin = "@echo on" + "\n" + "@echo Run as Admin" + "\n" + "@echo off" + "\n" + "%1 %2"
 			+ "\n" + "ver|find \"5.\">nul&&goto :st" + "\n"
 			+ "mshta vbscript:createobject(\"shell.application\").shellexecute(\"%~s0\",\"goto :st\",\"\",\"runas\",1)(window.close)&goto :eof"
 			+ "\n" + ":st" + "\n";
-			/* private String localbat = tempfilesfolder + "/localbat.bat"; */
-
-	// private String jsbatname = "jsbat.bat";
-	// private String jsbatLocalpath = tempfilesfolder + jsbatname;
 
 	private String rtsbatname = "rtsbat.bat";
-	private String rtsbatLocalpath = tempfilesfolder + rtsbatname;
-	// private String rtsbatPathOnServer = desktoppath + rtsbatname;
+	private String rtsbatLocalpath = tempfilesPath + rtsbatname;
+	private String defaultTempInfo = "%userprofile%\\Desktop\\tempinfo.xml";
+	private String batOutputFileContentTermination = "@fe0";
+	private String tellClipOutputFilePath = "cpc@";
+	private String tellClipFileExist = "@cd";
+	private String tellClipNoError = "@e0";
+	private String tellClipError2 = "@e2";
 
-	// private String backendbatname = "backendbat.bat";
-	// private String backendbatLocalpath = tempfilesfolder + backendbatname;
-	// private String backendbatPathOnServer = desktoppath + backendbatname;
-
-	public WinAuto(String pathForStoreTempfiles) throws Exception {
+	public WinRDAuto(String pathOfTempfiles) throws Exception {
 		try {
 			String osname = System.getProperty("os.name");
 			String styleswitchAbaPath = (new File(styleswitchPath)).getAbsolutePath();
@@ -111,10 +106,8 @@ public class WinAuto {
 			runselfasadmin = "";
 		}
 
-		if (pathForStoreTempfiles.equals("")) {
-			tempfilesfolder = "tempfiles/";
-		} else {
-			tempfilesfolder = pathForStoreTempfiles + "/tempfiles/";
+		if (!pathOfTempfiles.equals("")) {
+			tempfilesPath = pathOfTempfiles + "/" + tempfilesfolder + "/";
 		}
 
 		org.sikuli.basics.Settings.OcrTextRead = true;
@@ -122,7 +115,191 @@ public class WinAuto {
 		MouseAdv.move(loc);
 	}
 
-	private void chooseWindAutomationSolution(WindowsType wt) {
+	/**
+	 * logon a Remote Desktop
+	 * 
+	 * @param destServerIP
+	 * @param destServerUser
+	 * @param destServerPWD
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public boolean logonRemoteDesktop(String destServerIP, String destServerUser, String destServerPWD)
+			throws InterruptedException {
+
+		return logonRemoteDesktop(WinType.win2008, destServerIP, destServerUser, destServerPWD, WinType.win2008);
+	}
+
+	/**
+	 * logon a Remote Desktop
+	 * 
+	 * @param localWT
+	 * @param destServerIP
+	 * @param destServerUser
+	 * @param destServerPWD
+	 * @param destServerWT
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public boolean logonRemoteDesktop(WinType localWT, String destServerIP, String destServerUser, String destServerPWD,
+			WinType destServerWT) throws InterruptedException {
+
+		boolean res = false;
+		minAllWindows();
+
+		Thread.sleep(100);
+		if (!localToRemoteServer(localWT, destServerIP, destServerUser, destServerPWD, destServerWT)) {
+			res = false;
+			throw new IllegalArgumentException("failed to log on Remote Desktop: " + destServerUser);
+
+		} else {
+			res = true;
+			System.out.println("successful to log on Remote Desktop: " + destServerIP);
+		}
+		return res;
+	}
+
+	// the user of js and destServer must be admin which can run cmd as
+	// admin directly.
+	/**
+	 * logon a Remote Desktop through a windows jump station's Remote Desktop
+	 * 
+	 * @param jsIP
+	 * @param jsUser
+	 * @param jsPassword
+	 * @param destServerIP
+	 * @param destServerUser
+	 * @param destServerPWD
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public boolean logonRemoteDesktop(String jsIP, String jsUser, String jsPassword, String destServerIP,
+			String destServerUser, String destServerPWD) throws InterruptedException {
+
+		return logonRemoteDesktop(WinType.win2008, jsIP, jsUser, jsPassword, WinType.win2008, destServerIP,
+				destServerUser, destServerPWD, WinType.win2008);
+	}
+
+	// the user of js and destServer must be admin which can run cmd as
+	// admin directly.
+	/**
+	 * logon a Remote Desktop through a windows jump station's Remote Desktop
+	 * 
+	 * @param localWT
+	 * @param jsIP
+	 * @param jsUser
+	 * @param jsPassword
+	 * @param jsosname
+	 * @param destServerIP
+	 * @param destServerUser
+	 * @param destServerPWD
+	 * @param destServerWT
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public boolean logonRemoteDesktop(WinType localWT, String jsIP, String jsUser, String jsPassword, WinType jumpWT,
+			String destServerIP, String destServerUser, String destServerPWD, WinType destServerWT)
+					throws InterruptedException {
+
+		boolean res = false;
+		minAllWindows();
+
+		if (!localToRemoteServer(localWT, jsIP, jsUser, jsPassword, jumpWT)) {
+			res = false;
+			throw new IllegalArgumentException("failed to log on Jump Station: " + jsIP);
+
+		} else {
+			minAllWindows();
+			if (!remoteToServer(jumpWT, destServerIP, destServerUser, destServerPWD, destServerWT)) {
+				res = false;
+				throw new IllegalArgumentException("failed to log on Remote Desktop: " + destServerIP);
+
+			} else {
+				res = true;
+				System.out.println("successful to log on Remote Desktop: " + destServerIP);
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * log off Remote Desktop
+	 * 
+	 * @param ip
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public boolean logoffRemoteDesktop(String ip) throws InterruptedException {
+		System.out.println("Preparing to logoff Remote Desktop:" + ip);
+
+		Thread.sleep(10000);
+
+		boolean res = false;
+		Screen scr = new Screen();
+		if (waitRemoteServerShowed(scr, ip)) {
+			String logoffcmd = "logoff";
+			if (!winRunByUsingClip(logoffcmd)) {
+				throw new IllegalArgumentException("Failed to logoff server:" + ip);
+			} else {
+				res = true;
+				System.out.println("Successful to logoff server:" + ip);
+			}
+		} else {
+			throw new IllegalArgumentException("Current server screen is not you wanted:" + ip);
+		}
+		return res;
+	}
+
+	/**
+	 * use a .bat file to query. if you have your self query, please edit it in
+	 * the .bat file which path is @see #allinfobatOfWind
+	 * 
+	 * @return - all the information of .txt file which is generated by the
+	 *         .bat.
+	 * @throws InterruptedException
+	 */
+	public String queryAllInfo() throws InterruptedException {
+		File cmdBat = new File(allinfobatOfWind);
+		String res = "";
+		String content = "";
+		try {
+			content = FileUtils.readFileToString(cmdBat);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!content.equals("")) {
+			res = runBATThroughWinRun(content, defaultTempInfo);
+		}
+		return res;
+	}
+
+	/**
+	 * use a user-defined WinBat class to query. about how to create WinBat
+	 * class, please see {@link #WinBat}.
+	 * 
+	 * @param bat
+	 * @return - all the information of .txt file which is generated by the
+	 *         .bat.
+	 * @throws InterruptedException
+	 */
+	public String queryInfo(WinBat bat) throws InterruptedException {
+
+		String res = "";
+		String content = "";
+		try {
+			content = FileUtils.readFileToString(bat.getBatFile());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!content.equals("")) {
+			res = runBATThroughWinRun(content, bat.getPathOfOutputFile());
+		}
+		return res;
+	}
+
+	private void chooseWindAutomationSolution(WinType wt) {
 		/*
 		 * Screen scr = new Screen();
 		 *
@@ -130,12 +307,12 @@ public class WinAuto {
 		 * (screenRectangle.width * screenRectangle.height == 2073600) {
 		 * sikulixResolution = "1920x1080"; } sikulixResolution = "1920x1080";
 		 */
-		if (wt == WindowsType.win2008) {
+		if (wt == WinType.win2008) {
 			allinfobatOfWind = WinBatTemplate.win2008.getPath();
-			remotewintowinfulpath = WinResolution.win2008of1920x1080.getPath();
-		} else if (wt == WindowsType.win2012) {
+			remotewintowinfulpath = WinResolution.W2008R1920X1080.getPath();
+		} else if (wt == WinType.win2012) {
 			allinfobatOfWind = WinBatTemplate.win2012.getPath();
-			remotewintowinfulpath = WinResolution.win2012of1920x1080.getPath();
+			remotewintowinfulpath = WinResolution.W2012R1920X1080.getPath();
 		} else {
 			throw new IllegalArgumentException("Error parameter");
 		}
@@ -200,11 +377,11 @@ public class WinAuto {
 					+ "\n" + "Start \"\" \"%rdp%\"" + "\n" + "if %ERRORLEVEL% GTR 0 goto RDPRError" + "\n"
 					+ "if %ERRORLEVEL% == 0 goto Success" + "\n" + ":Success" + "\n" + "ping -n " + waitD
 					+ " 127.0.0.1>nul" + "\n" + "if %ERRORLEVEL% GTR 0 goto PingError" + "\n" + "@echo Delete RDP:%rdp%"
-					+ "\n" + "@echo off" + "\n" + "del \"%rdp%\"" + "\n" + "echo @e0| clip" + "\n" + "goto End" + "\n"
-					+ ":RDPWError" + "\n" + "echo failed to write rdp@e2| clip" + "\n" + "goto End" + "\n"
-					+ ":RDPRError" + "\n" + "echo failed to run rdp@e2| clip" + "\n" + "goto End" + "\n" + ":PingError"
-					+ "\n" + "echo pingerror@e2| clip" + "\n" + "goto End" + "\n" + "goto End" + "\n" + ":End" + "\n"
-					+ "del %0");
+					+ "\n" + "@echo off" + "\n" + "del \"%rdp%\"" + "\n" + "echo " + tellClipNoError + "| clip" + "\n"
+					+ "goto End" + "\n" + ":RDPWError" + "\n" + "echo failed to write rdp" + tellClipError2 + "| clip"
+					+ "\n" + "goto End" + "\n" + ":RDPRError" + "\n" + "echo failed to run rdp" + tellClipError2
+					+ "| clip" + "\n" + "goto End" + "\n" + ":PingError" + "\n" + "echo pingerror" + tellClipError2
+					+ "| clip" + "\n" + "goto End" + "\n" + "goto End" + "\n" + ":End" + "\n" + "del %0");
 
 			pw.flush();
 			pw.close();
@@ -301,11 +478,11 @@ public class WinAuto {
 					+ "\n" + "Start \"\" \"%rdp%\"" + "\n" + "if %ERRORLEVEL% GTR 0 goto RDPRError" + "\n"
 					+ "if %ERRORLEVEL% == 0 goto Success" + "\n" + ":Success" + "\n" + "ping -n " + waitD
 					+ " 127.0.0.1>nul" + "\n" + "if %ERRORLEVEL% GTR 0 goto PingError" + "\n" + "@echo Delete RDP:%rdp%"
-					+ "\n" + "@echo off" + "\n" + "del \"%rdp%\"" + "\n" + "echo @e0| clip" + "\n" + "goto End" + "\n"
-					+ ":RDPWError" + "\n" + "echo failed to write rdp@e2| clip" + "\n" + "goto End" + "\n"
-					+ ":RDPRError" + "\n" + "echo failed to run rdp@e2| clip" + "\n" + "goto End" + "\n" + ":PingError"
-					+ "\n" + "echo pingerror@e2| clip" + "\n" + "goto End" + "\n" + "goto End" + "\n" + ":End" + "\n"
-					+ "del %0");
+					+ "\n" + "@echo off" + "\n" + "del \"%rdp%\"" + "\n" + "echo " + tellClipNoError + "| clip" + "\n"
+					+ "goto End" + "\n" + ":RDPWError" + "\n" + "echo failed to write rdp" + tellClipError2 + "| clip"
+					+ "\n" + "goto End" + "\n" + ":RDPRError" + "\n" + "echo failed to run rdp" + tellClipError2
+					+ "| clip" + "\n" + "goto End" + "\n" + ":PingError" + "\n" + "echo pingerror" + tellClipError2
+					+ "| clip" + "\n" + "goto End" + "\n" + "goto End" + "\n" + ":End" + "\n" + "del %0");
 
 			pw.flush();
 			pw.close();
@@ -342,8 +519,23 @@ public class WinAuto {
 		return res;
 	}
 
-	// generate BAT file for Write, run and delete Temp.rdp.
-	private String normalbat(String content, String Path) {
+	/**
+	 * generate BAT file for Write, run and delete Temp.rdp.
+	 * 
+	 * @param Path
+	 *            - where to create the file.
+	 * @param pathOfOutputFile
+	 *            - It must be absolute path. The path of file which is written
+	 *            in first parameter "batFile" @see #batFile to get all output.
+	 * @return the Absolute Path of the new bat file
+	 */
+	private String normalbat(String content, String Path, String pathOfOutputFile) {
+		String outputcmd = "";
+		if (!pathOfOutputFile.equals("")) {
+			outputcmd = "\necho " + batOutputFileContentTermination + ">>\"" + pathOfOutputFile + "\"" + "\necho "
+					+ tellClipOutputFilePath + pathOfOutputFile + tellClipNoError + "|clip\ndel %0";
+		}
+
 		String res = "";
 		try {
 			File f = new File(Path);
@@ -359,7 +551,7 @@ public class WinAuto {
 			PrintWriter pw = new PrintWriter(fw);
 			pw.write("");
 
-			pw.append(runselfasadmin + content);
+			pw.append(runselfasadmin + content + outputcmd);
 
 			pw.flush();
 			pw.close();
@@ -395,8 +587,8 @@ public class WinAuto {
 		return res;
 	}
 
-	private boolean localToRemoteServer(WindowsType currentWT, String serverip, String username, String password,
-			WindowsType nextWT) throws InterruptedException {
+	private boolean localToRemoteServer(WinType currentWT, String serverip, String username, String password,
+			WinType nextWT) throws InterruptedException {
 		chooseWindAutomationSolution(currentWT);
 		String currentosanme = currentWT.getName();
 		String nextosname = nextWT.getName();
@@ -404,7 +596,7 @@ public class WinAuto {
 		boolean remoteScr = false;
 		String time = Utility.getCurrentTime().replaceAll(":", "-");
 		rtsbatname = serverip + time + ".bat";
-		rtsbatLocalpath = tempfilesfolder + rtsbatname;
+		rtsbatLocalpath = tempfilesPath + rtsbatname;
 
 		String localbatPath = ltsbat(serverip, username, rtsbatLocalpath);
 
@@ -419,9 +611,9 @@ public class WinAuto {
 			Date breakTime = calendar.getTime();
 			boolean isTS = false;
 			String clipC = Utility.getSysClipboardText();
-			while (!clipC.endsWith("@e0")) {
+			while (!clipC.endsWith(tellClipNoError)) {
 
-				if (clipC.endsWith("@e2")) {
+				if (clipC.endsWith(tellClipError2)) {
 					isTS = true;
 					throw new IllegalArgumentException("failed to run local.bat on Local:" + clipC);
 
@@ -489,8 +681,8 @@ public class WinAuto {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public boolean remoteToServer(WindowsType currentWT, String serverip, String username, String password,
-			WindowsType nextWT) throws InterruptedException {
+	private boolean remoteToServer(WinType currentWT, String serverip, String username, String password, WinType nextWT)
+			throws InterruptedException {
 		chooseWindAutomationSolution(currentWT);
 		String currentosanme = currentWT.getName();
 		String nextosname = nextWT.getName();
@@ -498,13 +690,13 @@ public class WinAuto {
 		boolean res = false;
 		String time = Utility.getCurrentTime().replaceAll(":", "-");
 		rtsbatname = serverip + time + ".bat";
-		rtsbatLocalpath = tempfilesfolder + rtsbatname;
+		rtsbatLocalpath = tempfilesPath + rtsbatname;
 		// rtsbatPathOnServer = desktoppath + rtsbatname;
 
 		String rstbatPath = rtsbat(serverip, username, rtsbatLocalpath);
 		if (!rstbatPath.equals("")) {
 			System.out.println("preparing rtsbat.bat on server");
-			String openFolder = (new File(tempfilesfolder)).getAbsolutePath();
+			String openFolder = (new File(tempfilesPath)).getAbsolutePath();
 			if (copyBATToCurrentScreenDesktopAndRun(openFolder, rtsbatname, 180)) {
 				/*
 				 * String deletertsbatonserver = "cmd /c if exist \"" +
@@ -574,7 +766,7 @@ public class WinAuto {
 		boolean copyDone = false;
 		int recopyNumber = 0;
 		int recopyNumberMax = 2;
-		String cmd2 = "cmd /c if exist \"" + filePath + "\" (echo @cd|clip)";
+		String cmd2 = "cmd /c if exist \"" + filePath + "\" (echo " + tellClipFileExist + "|clip)";
 		Date lastCopytime = Utility.convertTimeFromStringToDate("2015-00-00 00:00:01", "yyyy-MM-dd HH:mm:ss");
 		while (currentw.before(breakTimew)) {
 			// paste on current screen
@@ -621,7 +813,7 @@ public class WinAuto {
 
 			}
 
-			if (!Utility.getSysClipboardText().trim().equals("@cd")) {
+			if (!Utility.getSysClipboardText().trim().equals(tellClipFileExist)) {
 				if (!winRun(cmd2, 200)) {
 					throw new IllegalArgumentException(
 							"failed to run cmd on desktop of current server screen: " + cmd2);
@@ -653,7 +845,7 @@ public class WinAuto {
 				MatchAdv permissionactionmsg = null;
 				boolean uacpopuphandled = false;
 				boolean permissionpopuphandled = false;
-				while (!clipC.endsWith("@e0")) {
+				while (!clipC.endsWith(tellClipNoError)) {
 					if (uacpopuphandled == false) {
 						uacpopup = advExists(scr, remotewintowinfulpath + "/UACpopup.png", 2);
 						if (!(uacpopup == null)) {
@@ -708,7 +900,7 @@ public class WinAuto {
 						}
 					}
 
-					if (clipC.endsWith("@e2")) {
+					if (clipC.endsWith(tellClipError2)) {
 						isTS = true;
 						throw new IllegalArgumentException(
 								"failed to run " + fullname + " on  on desktop of current server screen:" + clipC);
@@ -1103,7 +1295,7 @@ public class WinAuto {
 	/**
 	 * minimize windows desktop
 	 */
-	public void minAllWindows() {
+	private void minAllWindows() {
 		Screen currentScreen = new Screen(0);
 
 		try {
@@ -1212,7 +1404,7 @@ public class WinAuto {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public boolean winRun(String cmd, int interval) throws InterruptedException {
+	private boolean winRun(String cmd, int interval) throws InterruptedException {
 		boolean res = false;
 		Screen currentScreen = new Screen(0);
 		MatchAdv runwindow = null;
@@ -1296,56 +1488,7 @@ public class WinAuto {
 		return res;
 	}
 
-	/**
-	 * use a .bat file to query. if you have your self query, please edit it in
-	 * the .bat file which path is {@link querywintowin}
-	 * 
-	 * @return - all the information of .txt file which is generated by the
-	 *         .bat.
-	 * @throws InterruptedException
-	 */
-	public String queryAllInfoOfWindows() throws InterruptedException {
-		File cmdBat = new File(allinfobatOfWind);
-		String res = "";
-		String content = "";
-		try {
-			content = FileUtils.readFileToString(cmdBat);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (!content.equals("")) {
-			res = runBATThroughWinRun(content);
-		}
-		return res;
-	}
-
-	/**
-	 * use a user-defined .bat file to query. if you have your self query,
-	 * please edit it in the paramter {@link #bat}.
-	 * 
-	 * @param bat
-	 * @return - all the information of .txt file which is generated by the
-	 *         .bat.
-	 * @throws InterruptedException
-	 */
-	public String queryInfoOfWindows(WindowsBAT bat) throws InterruptedException {
-
-		String res = "";
-		String content = "";
-		try {
-			content = FileUtils.readFileToString(bat.getBatFile());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (!content.equals("")) {
-			res = runBATThroughWinRun(content);
-		}
-		return res;
-	}
-
-	private String runBATThroughWinRun(String contentOfBAT) throws InterruptedException {
+	private String runBATThroughWinRun(String contentOfBAT, String pathOfOutputFile) throws InterruptedException {
 		String res = "";
 		Utility.setSysClipboardText("");
 
@@ -1353,21 +1496,29 @@ public class WinAuto {
 
 		String time = Utility.getCurrentTime().replaceAll(":", "-");
 		String newnormalbatname = "cmd" + time + ".bat";
-		String newnormalbatbatLocalpath = tempfilesfolder + newnormalbatname;
-		// String newnormalbatbatPathOnServer = desktoppath + newnormalbatname;
-		String restmpfile = tempfilesfolder + "res for cmd" + time + ".xml";
+		String newnormalbatbatLocalpath = tempfilesPath + newnormalbatname;
+		String restmpfile = tempfilesPath + "res for cmd" + time + ".xml";
 
-		String nbatPath = normalbat(contentOfBAT, newnormalbatbatLocalpath);
+		String nbatPath = normalbat(contentOfBAT, newnormalbatbatLocalpath, pathOfOutputFile);
 		if (!nbatPath.equals("")) {
 			System.out.println("preparing cmd.bat on local server");
-			String openFolder = (new File(tempfilesfolder)).getAbsolutePath();
+			String openFolder = (new File(tempfilesPath)).getAbsolutePath();
 			if (copyBATToCurrentScreenDesktopAndRun(openFolder, newnormalbatname, 180)) {
 				System.out.println("convert content of clip to local string");
 				String result = Utility.getSysClipboardText().trim();
-				if (result.length() <= 5) {
+				if (result.length() < ("\n" + batOutputFileContentTermination).length()) {
 					res = result.substring(0);
+					throw new RuntimeException(new Exception(
+							"the content is not end of  \"" + batOutputFileContentTermination + "\":\n" + res));
 				} else {
-					res = result.substring(0, result.length() - 4);
+					if (result.contains(batOutputFileContentTermination)) {
+						res = result.substring(0, result.length() - ("\n" + batOutputFileContentTermination).length());
+					} else {
+						res = result.substring(0);
+						throw new RuntimeException(new Exception(
+								"the content is not end of  \"" + batOutputFileContentTermination + "\":\n" + res));
+					}
+
 				}
 				/*
 				 * //scan all file is slow String resAfterFormat = ""; String
@@ -1660,9 +1811,9 @@ public class WinAuto {
 		// System.out.println(strContent);
 		String time = Utility.getCurrentTime().replaceAll(":", "-");
 		String newnormalbatname = "cmd" + time + ".bat";
-		String newnormalbatbatLocalpath = tempfilesfolder + newnormalbatname;
+		String newnormalbatbatLocalpath = tempfilesPath + newnormalbatname;
 
-		String copy2ClipBATPath = normalbat(strContent, newnormalbatbatLocalpath);
+		String copy2ClipBATPath = normalbat(strContent, newnormalbatbatLocalpath, "");
 		String copyfolderpath = copy2ClipBATPath.replaceFirst(newnormalbatname, "");
 		copyfolderpath = copyfolderpath.substring(0, copyfolderpath.length() - 1);
 
@@ -1682,7 +1833,7 @@ public class WinAuto {
 		int recopyNumberR = 0;
 		int recopyNumberMaxR = 2;
 		String filePathR = desktoppath + newnormalbatname;
-		String cmd2R = "cmd /c if exist \"" + filePathR + "\" (echo @cd|clip)";
+		String cmd2R = "cmd /c if exist \"" + filePathR + "\" (echo " + tellClipFileExist + "|clip)";
 		Date lastCopytimeR = Utility.convertTimeFromStringToDate("2015-00-00 00:00:01", "yyyy-MM-dd HH:mm:ss");
 		while (currentwR.before(breakTimewR)) {
 			// paste on current screen
@@ -1732,7 +1883,7 @@ public class WinAuto {
 
 			}
 
-			if (!Utility.getSysClipboardText().trim().equals("@cd")) {
+			if (!Utility.getSysClipboardText().trim().equals(tellClipFileExist)) {
 				if (!winRun(cmd2R, 200)) {
 					throw new IllegalArgumentException(
 							"failed to run cmd on desktop of current server screen: " + cmd2R);
@@ -1796,7 +1947,7 @@ public class WinAuto {
 					MatchAdv permissionactionmsg = null;
 					boolean uacpopuphandled = false;
 					boolean permissionpopuphandled = false;
-					while (!clipC.endsWith("@e0")) {
+					while (!clipC.endsWith(tellClipNoError)) {
 						if (uacpopuphandled == false) {
 							uacpopup = advExists(scr, remotewintowinfulpath + "/UACpopup.png", 2);
 							if (!(uacpopup == null)) {
@@ -1889,146 +2040,6 @@ public class WinAuto {
 					"failed to paste " + newnormalbatname + " on desktop of current server screen:" + copyfolderpath);
 		}
 
-		return res;
-	}
-
-	// the user of js and provisioned server must be admin which can run cmd as
-	// admin directly.
-	/**
-	 * log into a win server through another win server
-	 * 
-	 * @param jsIP
-	 * @param jsUser
-	 * @param jsPassword
-	 * @param provisionedServerIP
-	 * @param provisionedServerUser
-	 * @param provisionedServerPWD
-	 * @return
-	 * @throws InterruptedException
-	 */
-	public boolean logonWindServerThroughJumpStation(String jsIP, String jsUser, String jsPassword,
-			String provisionedServerIP, String provisionedServerUser, String provisionedServerPWD)
-					throws InterruptedException {
-
-		return logonWindServerThroughJumpStation(WindowsType.win2008, jsIP, jsUser, jsPassword, WindowsType.win2008,
-				provisionedServerIP, provisionedServerUser, provisionedServerPWD, WindowsType.win2008);
-	}
-
-	// the user of js and provisioned server must be admin which can run cmd as
-	// admin directly.
-	/**
-	 * log into a win server through another win server
-	 * 
-	 * @param localosname
-	 * @param jsIP
-	 * @param jsUser
-	 * @param jsPassword
-	 * @param jsosname
-	 * @param provisionedServerIP
-	 * @param provisionedServerUser
-	 * @param provisionedServerPWD
-	 * @param provisionedserverosname
-	 * @return
-	 * @throws InterruptedException
-	 */
-	public boolean logonWindServerThroughJumpStation(WindowsType localWT, String jsIP, String jsUser, String jsPassword,
-			WindowsType jumpWT, String provisionedServerIP, String provisionedServerUser, String provisionedServerPWD,
-			WindowsType provisionedWT) throws InterruptedException {
-
-		boolean res = false;
-		minAllWindows();
-
-		if (!localToRemoteServer(localWT, jsIP, jsUser, jsPassword, jumpWT)) {
-			res = false;
-			throw new IllegalArgumentException("failed to log on Jump Station: " + jsIP);
-
-		} else {
-			minAllWindows();
-			if (!remoteToServer(jumpWT, provisionedServerIP, provisionedServerUser, provisionedServerPWD,
-					provisionedWT)) {
-				res = false;
-				throw new IllegalArgumentException("failed to log on backend server: " + provisionedServerIP);
-
-			} else {
-				res = true;
-				System.out.println("successful to log on backend server: " + provisionedServerIP);
-			}
-		}
-		return res;
-	}
-
-	/**
-	 * log into a win server through local windows system
-	 * 
-	 * @param provisionedServerIP
-	 * @param provisionedServerUser
-	 * @param provisionedServerPWD
-	 * @return
-	 * @throws InterruptedException
-	 */
-	public boolean logonWindServerFromLocal(String provisionedServerIP, String provisionedServerUser,
-			String provisionedServerPWD) throws InterruptedException {
-
-		return logonWindServerFromLocal(WindowsType.win2008, provisionedServerIP, provisionedServerUser,
-				provisionedServerPWD, WindowsType.win2008);
-	}
-
-	/**
-	 * log into a win server through local windows system
-	 * 
-	 * @param localosname
-	 * @param provisionedServerIP
-	 * @param provisionedServerUser
-	 * @param provisionedServerPWD
-	 * @param provisionedserverosname
-	 * @return
-	 * @throws InterruptedException
-	 */
-	public boolean logonWindServerFromLocal(WindowsType localWT, String provisionedServerIP,
-			String provisionedServerUser, String provisionedServerPWD, WindowsType provisionedWT)
-					throws InterruptedException {
-
-		boolean res = false;
-		minAllWindows();
-
-		Thread.sleep(100);
-		if (!localToRemoteServer(localWT, provisionedServerIP, provisionedServerUser, provisionedServerPWD,
-				provisionedWT)) {
-			res = false;
-			throw new IllegalArgumentException("failed to log on backend Station: " + provisionedServerUser);
-
-		} else {
-			res = true;
-			System.out.println("successful to log on backend server: " + provisionedServerIP);
-		}
-		return res;
-	}
-
-	/**
-	 * log off win server
-	 * 
-	 * @param ip
-	 * @return
-	 * @throws InterruptedException
-	 */
-	public boolean logoffServer(String ip) throws InterruptedException {
-		System.out.println("Preparing to logoff server:" + ip);
-
-		Thread.sleep(10000);
-
-		boolean res = false;
-		Screen scr = new Screen();
-		if (waitRemoteServerShowed(scr, ip)) {
-			String logoffcmd = "logoff";
-			if (!winRunByUsingClip(logoffcmd)) {
-				throw new IllegalArgumentException("Failed to logoff server:" + ip);
-			} else {
-				res = true;
-				System.out.println("Successful to logoff server:" + ip);
-			}
-		} else {
-			throw new IllegalArgumentException("Current server screen is not you wanted:" + ip);
-		}
 		return res;
 	}
 
@@ -2147,10 +2158,6 @@ public class WinAuto {
 
 	}
 
-	/*
-	 * public void close(){ blockFrame.setExtendedState(JFrame.ICONIFIED);
-	 * blockFrame.setVisible(false); blockFrame = null; }
-	 */
 	private static class MouseAdv {
 		public static void click(Location loc, String action, Integer args) {
 

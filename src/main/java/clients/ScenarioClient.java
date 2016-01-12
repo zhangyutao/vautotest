@@ -62,7 +62,7 @@ public class ScenarioClient implements Client {
 				iterationRunCount = iterationRunCount + 1;
 				String thrname = String.valueOf(iterationRunCount);
 
-				IterationScenario iteraionScenario = new IterationScenario(scenario, inputDatas[h-1]);
+				IterationScenario iteraionScenario = new IterationScenario(scenario, inputDatas[h - 1]);
 				Thread iterationScenarioThread = new Thread(iteraionScenario, thrname);
 
 				iterationScenarioThreads.add(iterationScenarioThread);

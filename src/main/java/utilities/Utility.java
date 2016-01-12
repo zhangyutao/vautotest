@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -69,6 +70,38 @@ public class Utility {
 	 */
 	public static String getCurrentTime() {
 		return getTime(0);
+	}
+
+	public static String readFileByLines(File file) {
+		String fileTxt = "";
+		BufferedReader reader = null;
+		try {
+
+			reader = new BufferedReader(new FileReader(file));
+			String tempString = null;
+			int line = 1;
+
+			while ((tempString = reader.readLine()) != null) {
+				if (line == 1) {
+					fileTxt = tempString;
+				} else {
+					fileTxt = fileTxt + "\n" + tempString;
+				}
+
+				line++;
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e1) {
+				}
+			}
+		}
+		return fileTxt;
 	}
 
 	/**

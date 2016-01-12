@@ -352,7 +352,3 @@ type %tempMPIOConfiguraionLog%>>%filePath%
 echo ^<^/MPIOConfiguraion^>>>%filePath%
 
 echo ^<^/info^>>>%filePath%
-::the suffix @e0 is used to tell out the bat is end
-echo @e0>>%filePath%
-echo cpc@%filePath%@e0|clip
-del %0

@@ -14,8 +14,8 @@ import factories.RequestsFactory;
 import requests.CommandRequest;
 import basic.RealLinuxServerInfoBean;
 import basic.RealWinServerInfoBean;
-import basic.windows.WinAuto;
-import basic.windows.WindowsType;
+import basic.windows.WinRDAuto;
+import basic.windows.WinType;
 
 /**
  * a Inspector for get real server's information .
@@ -26,7 +26,7 @@ import basic.windows.WindowsType;
 
 public class RealServerInspector {
 	private boolean isFirstConnected = true;
-	private WinAuto wa = null;
+	private WinRDAuto winRD = null;
 	private SSHClient sshc = null;
 	private LinuxQueryList linuxQueryList;
 	private RealLinuxServerInfoBean realServerForLinux;
@@ -488,10 +488,10 @@ public class RealServerInspector {
 
 	// this method must be used under a windows which performance option of
 	// visual effects is whole turned off.
-	public boolean connectToWinServer(WindowsType localWT, String destServerIP, String destServerUserName,
-			String destServerPassword, WindowsType provisionedWT) throws Exception {
+	public boolean connectToWinRemoteDesktop(WinType localWT, String destServerIP, String destServerUserName,
+			String destServerPassword, WinType destServerWT) throws Exception {
 		boolean res = false;
-		wa = new WinAuto("");
+		winRD = new WinRDAuto("");
 
 		if (isFirstConnected == false) {
 			this.realServerForWin = null;
@@ -502,7 +502,7 @@ public class RealServerInspector {
 		}
 
 		Thread.sleep(100);
-		if (wa.logonWindServerFromLocal(localWT, destServerIP, destServerUserName, destServerPassword, provisionedWT)) {
+		if (winRD.logonRemoteDesktop(localWT, destServerIP, destServerUserName, destServerPassword, destServerWT)) {
 			res = true;
 		} else {
 			res = false;
@@ -512,11 +512,11 @@ public class RealServerInspector {
 		return res;
 	}
 
-	public boolean connectToWinServerThroughWinJumpStation(WindowsType localWT, String jumpstationip,
-			String jumpstationusername, String jumpstationpassword, WindowsType jumpWT, String destServerIP,
-			String destServerUserName, String destServerPassword, WindowsType provisionedWT) throws Exception {
+	public boolean connectToWinRemoteDesktop(WinType localWT, String jumpstationip, String jumpstationusername,
+			String jumpstationpassword, WinType jumpWT, String destServerIP, String destServerUserName,
+			String destServerPassword, WinType destServerWT) throws Exception {
 		boolean res = false;
-		wa = new WinAuto("");
+		winRD = new WinRDAuto("");
 
 		if (isFirstConnected == false) {
 			this.realServerForWin = null;
@@ -525,8 +525,8 @@ public class RealServerInspector {
 			this.realServerForWin = new RealWinServerInfoBean();
 		}
 
-		if (wa.logonWindServerThroughJumpStation(localWT, jumpstationip, jumpstationusername, jumpstationpassword,
-				jumpWT, destServerIP, destServerUserName, destServerPassword, provisionedWT)) {
+		if (winRD.logonRemoteDesktop(localWT, jumpstationip, jumpstationusername, jumpstationpassword, jumpWT,
+				destServerIP, destServerUserName, destServerPassword, destServerWT)) {
 
 			res = true;
 		} else {
@@ -537,13 +537,13 @@ public class RealServerInspector {
 		return res;
 	}
 
-	public void logoffWindSever(String ip) throws Exception {
-		wa.logoffServer(ip);
+	public void logoffWinRemoteDesktop(String ip) throws Exception {
+		winRD.logoffRemoteDesktop(ip);
 	}
 
-	public void tourWindAllInfo() throws Exception {
+	public void tourSystemInfoFromWinRemoteDesktop() throws Exception {
 		String res = "";
-		res = wa.queryAllInfoOfWindows();
+		res = winRD.queryAllInfo();
 
 		if (!res.equals("")) {
 			NodeList nodes = null;
