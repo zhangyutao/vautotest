@@ -25,7 +25,7 @@ public class ScenarioRequest {
 
 	ScenarioClient scenarioClient;
 	Scenario scenario;
-	ScenarioIO datainput;
+	ScenarioIO[] inputDatas;
 	int iteration;
 	boolean isConcurrent;
 	int timeout;
@@ -46,12 +46,12 @@ public class ScenarioRequest {
 		this.scenario = scenario;
 	}
 
-	public ScenarioIO getDatainput() {
-		return datainput;
+	public ScenarioIO[] getInputDatas() {
+		return inputDatas;
 	}
 
-	public void setDatainput(ScenarioIO datainput) {
-		this.datainput = datainput;
+	public void setInputDatas(ScenarioIO[] inputDatas) {
+		this.inputDatas = inputDatas;
 	}
 
 	public int getIteration() {
@@ -81,7 +81,7 @@ public class ScenarioRequest {
 	public void execute() throws Exception {
 		ArrayList<Object> arg = new ArrayList<Object>();
 		arg.add(this.scenario);
-		arg.add(this.datainput);
+		arg.add(this.inputDatas);
 		arg.add(this.iteration);
 		arg.add(this.isConcurrent);
 		arg.add(this.timeout);

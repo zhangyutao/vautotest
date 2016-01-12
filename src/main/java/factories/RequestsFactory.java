@@ -334,31 +334,32 @@ public class RequestsFactory implements Factory {
 				&& (commandClient instanceof ScenarioClient)) {
 			if (field.getAnnotation(Properties.class) != null) {
 				Properties properties = (Properties) field.getAnnotation(Properties.class);
-				if (properties.scenario() != null & properties.inputdata() != null & properties.iteration() > 0) {
+				if (properties.scenario() != null & properties.inputDatas() != null & properties.iteration() > 0) {
 					ScenarioRequest thiscase = new ScenarioRequest();
 					thiscase.setScenarioClient((ScenarioClient) commandClient);
-					try {
-						thiscase.setScenario(properties.scenario().newInstance());
-						thiscase.setDatainput(properties.inputdata().newInstance());
-					} catch (InstantiationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						return null;
-					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						return null;
-					}
+
 					try {
 						Constructor<? extends Scenario> constructor1 = properties.scenario().getConstructor();
-						Constructor<? extends ScenarioIO> constructor2 = properties.inputdata().getConstructor();
-
 						thiscase.setScenario(constructor1.newInstance());
-						thiscase.setDatainput(constructor2.newInstance());
+
+						ScenarioIO[] inputs = new ScenarioIO[properties.inputDatas().length];
+						int index = 0;
+						for (Class<? extends ScenarioIO> inputData : properties.inputDatas()) {
+							Constructor<? extends ScenarioIO> constructor2 = inputData.getConstructor();
+							inputs[index] = constructor2.newInstance();
+							index = index + 1;
+						}
+						thiscase.setInputDatas(inputs);
 					} catch (NoSuchMethodException e) {
 						try {
 							thiscase.setScenario(properties.scenario().newInstance());
-							thiscase.setDatainput(properties.inputdata().newInstance());
+							ScenarioIO[] inputs = new ScenarioIO[properties.inputDatas().length];
+							int index = 0;
+							for (Class<? extends ScenarioIO> inputData : properties.inputDatas()) {
+								inputs[index] = inputData.newInstance();
+								index = index + 1;
+							}
+							thiscase.setInputDatas(inputs);
 						} catch (InstantiationException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

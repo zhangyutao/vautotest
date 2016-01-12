@@ -30,7 +30,7 @@ public class ScenarioClient implements Client {
 	 * 
 	 * @param scenario
 	 *            the Scenario class which you want to execute.
-	 * @param datainput
+	 * @param inputDatas
 	 *            the data you would use to execute the scenario.
 	 * @param iteration
 	 *            the number how many times you would to repeate on the
@@ -42,7 +42,7 @@ public class ScenarioClient implements Client {
 	 * @return
 	 * @author zhangyutao
 	 */
-	public HashMap<Integer, ScenarioResult> execute(Scenario scenario, ScenarioIO datainput, int iteration,
+	public HashMap<Integer, ScenarioResult> execute(Scenario scenario, ScenarioIO[] inputDatas, int iteration,
 			boolean isConcurrent, int timeout) {
 		if (timeout <= 0) {
 			timeout = 180000;
@@ -62,7 +62,7 @@ public class ScenarioClient implements Client {
 				iterationRunCount = iterationRunCount + 1;
 				String thrname = String.valueOf(iterationRunCount);
 
-				IterationScenario iteraionScenario = new IterationScenario(scenario, datainput);
+				IterationScenario iteraionScenario = new IterationScenario(scenario, inputDatas[h-1]);
 				Thread iterationScenarioThread = new Thread(iteraionScenario, thrname);
 
 				iterationScenarioThreads.add(iterationScenarioThread);
@@ -167,7 +167,7 @@ public class ScenarioClient implements Client {
 	public <T> void execute(T content) throws Exception {
 		// TODO Auto-generated method stub
 		this.result = execute((Scenario) ((ArrayList<Object>) content).get(0),
-				(ScenarioIO) ((ArrayList<Object>) content).get(1), (int) ((ArrayList<Object>) content).get(2),
+				(ScenarioIO[]) ((ArrayList<Object>) content).get(1), (int) ((ArrayList<Object>) content).get(2),
 				(boolean) ((ArrayList<Object>) content).get(3), (int) ((ArrayList<Object>) content).get(4));
 	}
 }

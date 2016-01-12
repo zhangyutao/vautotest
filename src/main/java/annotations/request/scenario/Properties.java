@@ -22,7 +22,7 @@ public @interface Properties {
 
 	Class<? extends Scenario> scenario();
 
-	Class<? extends ScenarioIO> inputdata();
+	Class<? extends ScenarioIO>[] inputDatas();
 
 	int iteration() default 1;
 
