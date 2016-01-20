@@ -69,8 +69,10 @@ public class Config {
 				String jarPath = realPath.replaceAll(clsName, "").substring(6).replaceAll("/", "\\\\").split(".jar!")[0]
 						+ ".jar";
 				// System.out.println("jarPath: " + jarPath);
+				int i = jarPath.lastIndexOf("\\");
+				String jarname = jarPath.substring(i + 1);
 				String tmp = System.getProperty("java.io.tmpdir");
-				RSCPath = tmp + "vautaotest";
+				RSCPath = tmp + jarname;
 				// new File(TEMP).getAbsolutePath();
 				System.out.println("Temp folder: " + RSCPath);
 				File jarFile = new File(jarPath);
@@ -91,7 +93,8 @@ public class Config {
 				 */
 				/// C:/Users/zhanyuta/.m2/repository/com/hp/at/vautotest/target/classes
 				RSCPath = realPath.replaceAll(clsName, "").substring(1).replaceAll("/", "\\\\");
-				BINFOLDER = RSCPath + BINFOLDER;
+				RSCPath = RSCPath.substring(0, RSCPath.length() - 1);
+				BINFOLDER = RSCPath + "\\" + BINFOLDER;
 				RUNCONFIGPATH = BINFOLDER + "\\" + MYCONFIGProper;
 				RESOURCEPATH = BINFOLDER;
 				SIKULIX_PATH = RESOURCEPATH + "\\sikuliX";
