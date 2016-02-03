@@ -475,17 +475,25 @@ public class SQLClient implements Client {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public HashMap<Integer[], Object> getResponse() throws SQLException {
-		return transformToHashMap(tempRS);
+	public HashMap<Integer[], Object> getResponse() {
+		HashMap<Integer[], Object> res = new HashMap<Integer[], Object>();
+		try {
+			res = transformToHashMap(tempRS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return res;
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() {
 		disconnect();
 	}
 
 	@Override
-	public void execute(Object content) throws Exception {
+	public void execute(Object content) {
 		tempRS = executeSQL((String) content);
 
 	}

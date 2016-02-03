@@ -165,19 +165,19 @@ public class EmailClient implements Client {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String getResponse() throws Exception {
+	public String getResponse() {
 		// TODO Auto-generated method stub
 		return this.response;
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void execute(Object content) throws Exception {
+	public void execute(Object content) {
 		// TODO Auto-generated method stub
 		try {
 			Message msg = (Message) content;

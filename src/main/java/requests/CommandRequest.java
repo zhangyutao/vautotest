@@ -59,7 +59,7 @@ public class CommandRequest implements DefaultCommand {
 	}
 
 	@Override
-	public void execute() throws Exception {
+	public void execute() {
 		// TODO Auto-generated method stub
 		if (this.content != null) {
 			this.commandClient.execute(this.content);
@@ -78,7 +78,7 @@ public class CommandRequest implements DefaultCommand {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T getResponse() throws Exception {
+	public <T> T getResponse() {
 		// TODO Auto-generated method stub
 		return (T) this.response;
 
@@ -86,7 +86,7 @@ public class CommandRequest implements DefaultCommand {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> ArrayList<T> getResponses() throws Exception {
+	public <T> ArrayList<T> getResponses() {
 		// TODO Auto-generated method stub
 		ArrayList<T> temp = new ArrayList<T>();
 		for (int i = 0; i < this.responses.size(); i++) {

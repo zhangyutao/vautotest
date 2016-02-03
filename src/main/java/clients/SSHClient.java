@@ -39,7 +39,7 @@ public class SSHClient implements Client {
 	}
 
 	@Override
-	public void execute(Object commandline) throws Exception {
+	public void execute(Object commandline) {
 
 		System.out.println("starts to execute:" + commandline);
 		try {
@@ -48,7 +48,7 @@ public class SSHClient implements Client {
 			System.out.println(e.getMessage());
 		}
 		if (result == null) {
-			throw new Exception("No result is returned");
+			throw new RuntimeException("No result is returned");
 		} else {
 			System.out.println("Result is returned");
 		}
@@ -56,14 +56,20 @@ public class SSHClient implements Client {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String getResponse() throws Exception {
+	public String getResponse() {
 		return result;
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() {
 		if (client != null) {
-			client.disconnectSSHClient();
+			try {
+				client.disconnectSSHClient();
+			} catch (SecureShellClientException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
 		}
 
 	}

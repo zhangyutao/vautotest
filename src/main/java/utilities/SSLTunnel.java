@@ -3,6 +3,9 @@ package utilities;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Date;
+
+import org.testng.annotations.Test;
+
 import com.hp.ecs.ssh.SecureShellClient;
 import com.hp.ecs.ssh.SecureShellClientException;
 
@@ -23,7 +26,8 @@ public class SSLTunnel implements Runnable {
 	private int proposeTunnelPort;
 	private String destServer = "";
 	private int destPort;
-	private String isSSLTunnelFailed = "-1";
+	private String sslTunnelStatus = "-1";// -1:Not
+											// Ready,0:Good,1:Closed,2:ErrorOnBuild,3:ErrorOnClose.
 	private Thread mythread;
 	private ServerSocket ss;
 
@@ -32,25 +36,33 @@ public class SSLTunnel implements Runnable {
 	}
 
 	public String getStatus() {
-		switch (this.isSSLTunnelFailed) {
-		case "0":
-			return "Good";
+		switch (SSLTunnelOne.sslTunnelStatus) {
 		case "-1":
 			return "Not Ready";
-		default:
+		case "0":
+			return "Good";
+		case "1":
 			return "Closed";
+		case "2":
+			return "ErrorOnBuild";
+		case "3":
+			return "ErrorOnClose";
+		default:
+			return "Exception";
 		}
 
 	}
 
-	@SuppressWarnings("unused")
+	@Test
 	private void test() {
 		try {
 			setupSSLTunnel("127.0.0.1", 9997, "204.104.5.221", "hurui", "Sfv19830829V", "204.104.5.78", 22);
+			System.out.println(getStatus());
 			closeSSLTunnel();
+			System.out.println(getStatus());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 	}
@@ -80,15 +92,15 @@ public class SSLTunnel implements Runnable {
 	public void setupSSLTunnel(String proposeTunnelIP, int proposeTunnelPort, String jumpstaionIP,
 			String jumpstaionUser, String jumpstaionIPPassword, String destServer, int destPort) throws Exception {
 
-		SSLTunnel sslt = new SSLTunnel();
-		sslt.setTunnelInfo(proposeTunnelIP, proposeTunnelPort, jumpstaionIP, jumpstaionUser, jumpstaionIPPassword,
-				destServer, destPort);
-		Thread th = new Thread(sslt);
+		SSLTunnelOne = new SSLTunnel();
+		SSLTunnelOne.setTunnelInfo(proposeTunnelIP, proposeTunnelPort, jumpstaionIP, jumpstaionUser,
+				jumpstaionIPPassword, destServer, destPort);
+		Thread th = new Thread(SSLTunnelOne);
 		th.setDaemon(true);
 		th.start();
 		Date startTime = new Date();
 		boolean ts = false;
-		while (sslt.ssc == null || sslt.ssc.isLocalForwardStart == null) {
+		while (SSLTunnelOne.ssc == null || SSLTunnelOne.ssc.isLocalForwardStart == null) {
 			Thread.sleep(30);
 			Date curTime = new Date();
 			if (Utility.dateDiff(startTime, curTime, "yyyy-MM-dd HH:mm:ss", "s") >= 60) {
@@ -97,8 +109,8 @@ public class SSLTunnel implements Runnable {
 			}
 		}
 		if (!ts) {
-			while (sslt.ssc != null && sslt.ssc.isLocalForwardStart != null && sslt.ssc.isLocalForwardStart.equals("-1")
-					&& sslt.isSSLTunnelFailed.equals("-1")) {
+			while (SSLTunnelOne.ssc != null && SSLTunnelOne.ssc.isLocalForwardStart != null
+					&& SSLTunnelOne.ssc.isLocalForwardStart.equals("0") && SSLTunnelOne.sslTunnelStatus.equals("-1")) {
 				Thread.sleep(30);
 				Date curTime = new Date();
 				if (Utility.dateDiff(startTime, curTime, "yyyy-MM-dd HH:mm:ss", "s") >= 60) {
@@ -110,37 +122,38 @@ public class SSLTunnel implements Runnable {
 
 		if (ts) {
 			closeSSLTunnel();
+			SSLTunnelOne.sslTunnelStatus = "2";
 			throw new Exception("Cannot setup SSL Tunnel. time out : 60 sec");
 
-		} else if (sslt.isSSLTunnelFailed.equals("1")) {
+		} else if (SSLTunnelOne.ssc.isLocalForwardStart.equals("-1")) {
 			closeSSLTunnel();
+			SSLTunnelOne.sslTunnelStatus = "2";
 			throw new Exception("Failed to setup SSL Tunnel.");
 
-		} else {
+		} else if (SSLTunnelOne.sslTunnelStatus.equals("-1")) {
 
 			for (int w = 1; w < 100; w++) {
-
-				Thread.sleep(50);
-
+				Thread.sleep(20);
 			}
-			sslt.isSSLTunnelFailed = "0";
+			SSLTunnelOne.sslTunnelStatus = "0";
 			System.out.println("SSL Tunnel is setup.");
-		}
-		SSLTunnelOne = sslt;
 
+		}
 	}
 
 	public void closeSSLTunnel() throws Exception {
 		System.out.println("Closing SSL Tunnel.");
 		if (SSLTunnelOne != null) {
 			SSLTunnelOne.close();
+			SSLTunnelOne.sslTunnelStatus = "1";
 		}
-		if (ssc != null) {
+		if (SSLTunnelOne.ssc != null) {
 			try {
-				ssc.disconnectSSHClient();
+				SSLTunnelOne.ssc.disconnectSSHClient();
 			} catch (SecureShellClientException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				SSLTunnelOne.sslTunnelStatus = "3";
 				throw new Exception("Exception when closing ssh client");
 			}
 		}
@@ -148,7 +161,7 @@ public class SSLTunnel implements Runnable {
 
 	@SuppressWarnings("unused")
 	private void setTunnelInfo(String destServer, int destPort) {
-		this.isSSLTunnelFailed = "-1";
+		this.sslTunnelStatus = "-1";
 		this.proposeTunnelIP = destServer;
 		this.proposeTunnelPort = destPort;
 	}
@@ -171,7 +184,7 @@ public class SSLTunnel implements Runnable {
 				System.out.println("SecureShellClientException:" + e.getMessage());
 			}
 		}
-		this.isSSLTunnelFailed = "-1";
+		this.sslTunnelStatus = "-1";
 		this.jumpstaionIP = jumpstaionIP;
 		this.jumpstaionUser = jumpstaionUser;
 		this.jumpstaionIPPassword = jumpstaionIPPassword;
@@ -196,9 +209,11 @@ public class SSLTunnel implements Runnable {
 				this.ssc = null;
 			}
 			System.out.println("SSL tunnel is closed");
+			this.sslTunnelStatus = "1";
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
+			this.sslTunnelStatus = "3";
 		}
 	}
 
@@ -219,7 +234,7 @@ public class SSLTunnel implements Runnable {
 					ssc.serverSocket.close();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					// e1.printStackTrace();
 				}
 			}
 			if (ssc != null) {
@@ -227,10 +242,10 @@ public class SSLTunnel implements Runnable {
 					ssc.disconnectSSHClient();
 				} catch (SecureShellClientException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					// e1.printStackTrace();
 				}
 			}
-			this.isSSLTunnelFailed = "1";
+			this.sslTunnelStatus = "2";
 			System.out.println("SecureShellClientException:" + e.getMessage());
 			Date startTime = new Date();
 			Date curTime = new Date();

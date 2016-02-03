@@ -7,7 +7,7 @@ public class MyServerCPUComp extends E2EComparison {
 	private String result;
 
 	@Override
-	public void compare(EndpointObject expObj, EndpointObject actObj) throws Exception {
+	public void compare(EndpointObject expObj, EndpointObject actObj) {
 		// TODO Auto-generated method stub
 		if (expObj.getValues()[0].equals(actObj.getValues()[0])) {
 			this.result = "passed";
@@ -18,7 +18,7 @@ public class MyServerCPUComp extends E2EComparison {
 	}
 
 	@Override
-	public String getComparisonResult() throws Exception {
+	public String getComparisonResult() {
 		// TODO Auto-generated method stub
 		return this.result;
 	}

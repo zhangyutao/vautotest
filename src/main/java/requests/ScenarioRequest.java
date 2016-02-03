@@ -78,7 +78,7 @@ public class ScenarioRequest {
 		this.timeout = timeout;
 	}
 
-	public void execute() throws Exception {
+	public void execute() {
 		ArrayList<Object> arg = new ArrayList<Object>();
 		arg.add(this.scenario);
 		arg.add(this.inputDatas);
@@ -89,7 +89,7 @@ public class ScenarioRequest {
 
 	}
 
-	public HashMap<Integer, ScenarioResult> getResult() throws Exception {
+	public HashMap<Integer, ScenarioResult> getResult() {
 		// TODO Auto-generated method stub
 		return this.scenarioClient.getResponse();
 

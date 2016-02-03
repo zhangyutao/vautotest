@@ -13,8 +13,7 @@ public interface DefaultEmailFormat {
 
 	public Message[] getMessages();
 
-	public void setupMessage(String from, String to, String subject, String textbody, String[] pathOfAttachments)
-			throws Exception;
+	public void setupMessage(String from, String to, String subject, String textbody, String[] pathOfAttachments);
 
 	public void setupMessages(Message[] msgs);
 
@@ -22,9 +21,9 @@ public interface DefaultEmailFormat {
 
 	public void setClient(Client cc);
 
-	public void execute() throws Exception;
+	public void execute();
 
-	public String getResponse() throws Exception;
+	public String getResponse();
 
-	public String[] getResponses() throws Exception;
+	public String[] getResponses();
 }

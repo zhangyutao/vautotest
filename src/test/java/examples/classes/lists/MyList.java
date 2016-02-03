@@ -46,4 +46,5 @@ public class MyList {
 	@Properties(scenario = MyScenario.class, inputDatas = { MyScenarioInput.class,
 			MyScenarioInput.class }, iteration = 2, isConcurrent = false, timeout = 180000)
 	public ScenarioRequest myScenario;
+
 }

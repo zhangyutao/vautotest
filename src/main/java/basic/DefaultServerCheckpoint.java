@@ -18,8 +18,8 @@ public interface DefaultServerCheckpoint {
 
 	void setClient(Client cc);
 
-	void execute() throws Exception;
+	void execute();
 
-	<T> T getResult() throws Exception;
+	<T> T getResult();
 
 }

@@ -28,9 +28,14 @@ public class EmailRequest implements DefaultEmailFormat {
 	}
 
 	@Override
-	public void setupMessage(String from, String to, String subject, String textBody, String[] pathOfAttachments)
-			throws Exception {
-		this.msg = this.client.setupMessage(from, to, subject, textBody, pathOfAttachments);
+	public void setupMessage(String from, String to, String subject, String textBody, String[] pathOfAttachments) {
+		try {
+			this.msg = this.client.setupMessage(from, to, subject, textBody, pathOfAttachments);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
@@ -46,24 +51,30 @@ public class EmailRequest implements DefaultEmailFormat {
 	}
 
 	@Override
-	public void execute() throws Exception {
+	public void execute() {
 		// TODO Auto-generated method stub
-		if (this.msg != null) {
-			this.client.execute(this.msg);
-			this.response = this.client.getResponse();
-		} else if (this.msgs != null) {
-			String[] tempr = new String[this.msgs.length];
-			for (int i = 0; i < this.msgs.length; i++) {
-				this.client.execute(this.msgs[i]);
-				tempr[i] = this.client.getResponse();
+		try {
+			if (this.msg != null) {
+				this.client.execute(this.msg);
+				this.response = this.client.getResponse();
+			} else if (this.msgs != null) {
+				String[] tempr = new String[this.msgs.length];
+				for (int i = 0; i < this.msgs.length; i++) {
+					this.client.execute(this.msgs[i]);
+					tempr[i] = this.client.getResponse();
+				}
+				this.responses = tempr;
 			}
-			this.responses = tempr;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 
 	}
 
 	@Override
-	public String getResponse() throws Exception {
+	public String getResponse() {
 		// TODO Auto-generated method stub
 		return this.response;
 	}
@@ -75,7 +86,7 @@ public class EmailRequest implements DefaultEmailFormat {
 	}
 
 	@Override
-	public String[] getResponses() throws Exception {
+	public String[] getResponses() {
 		// TODO Auto-generated method stub
 		return this.responses;
 	}

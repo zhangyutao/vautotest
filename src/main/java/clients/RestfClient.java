@@ -116,7 +116,7 @@ public class RestfClient implements Client {
 	 *      Map)
 	 */
 	@Override
-	public void execute(Object request) throws Exception {
+	public void execute(Object request) {
 		System.out.println("Execute Resf-webservice request");
 
 		Response response = null;
@@ -135,20 +135,20 @@ public class RestfClient implements Client {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				throw new Exception("StatusCode shall be 200, but it now is: " + response.getStatusLine()
+				throw new RuntimeException("StatusCode shall be 200, but it now is: " + response.getStatusLine()
 						+ "  and Response body is \"" + body + "\"");
 				// Reporter.reportAMessage("Response body is
 				// \""+response.getResponseBody().toString()+"\"");
 			}
 		} else {
-			throw new Exception("Cannot get response");
+			throw new RuntimeException("Cannot get response");
 		}
 		this.rsp = response;
 		System.out.println("Get Resf-webservice response.");
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() {
 		// TODO Auto-generated method stub
 
 	}

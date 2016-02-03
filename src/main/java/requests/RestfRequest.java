@@ -56,13 +56,19 @@ public class RestfRequest implements HttpRequest {
 	}
 
 	@Override
-	public void execute() throws Exception {
-		this.client.execute(this.content);
+	public void execute() {
+		try {
+			this.client.execute(this.content);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 
 	}
 
 	@Override
-	public Response getResponse() throws Exception {
+	public Response getResponse() {
 		return this.client.getResponse();
 
 	}

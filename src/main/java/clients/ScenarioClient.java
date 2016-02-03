@@ -151,20 +151,20 @@ public class ScenarioClient implements Client {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public HashMap<Integer, ScenarioResult> getResponse() throws Exception {
+	public HashMap<Integer, ScenarioResult> getResponse() {
 		// TODO Auto-generated method stub
 		return this.result;
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> void execute(T content) throws Exception {
+	public <T> void execute(T content) {
 		// TODO Auto-generated method stub
 		this.result = execute((Scenario) ((ArrayList<Object>) content).get(0),
 				(ScenarioIO[]) ((ArrayList<Object>) content).get(1), (int) ((ArrayList<Object>) content).get(2),

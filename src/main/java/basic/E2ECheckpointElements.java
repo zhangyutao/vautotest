@@ -16,15 +16,15 @@ public class E2ECheckpointElements implements CheckpointElements {
 	private ArrayList<Object> elements = new ArrayList<Object>();
 
 	@Override
-	public void setElements(ArrayList<Object> a) throws Exception {
+	public void setElements(ArrayList<Object> a) {
 		if (a.size() != 3) {
-			throw new Exception("ServerCheckpointElements's element number must equal to 3.");
+			throw new RuntimeException("ServerCheckpointElements's element number must equal to 3.");
 		} else if (EndpointObject.class.isAssignableFrom((Class<?>) a.get(0).getClass())
 				& EndpointObject.class.isAssignableFrom((Class<?>) a.get(1).getClass())
 				& E2EComparison.class.isAssignableFrom((Class<?>) a.get(2).getClass())) {
 			this.elements = a;
 		} else {
-			throw new Exception("ServerCheckpointElements must be {ServerObject,ServerObject,ServerComparison}");
+			throw new RuntimeException("ServerCheckpointElements must be {ServerObject,ServerObject,ServerComparison}");
 		}
 
 	};

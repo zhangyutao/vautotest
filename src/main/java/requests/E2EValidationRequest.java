@@ -45,11 +45,17 @@ public class E2EValidationRequest implements DefaultServerCheckpoint {
 	}
 
 	@Override
-	public void execute() throws Exception {
+	public void execute() {
 		// TODO Auto-generated method stub
 		if (this.content != null) {
-			this.e2eValidationClient.execute(this.content);
-			this.result = this.e2eValidationClient.getResponse();
+			try {
+				this.e2eValidationClient.execute(this.content);
+				this.result = this.e2eValidationClient.getResponse();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
 		} else {
 			System.out.println("Nothing to execute!");
 		}
@@ -58,7 +64,7 @@ public class E2EValidationRequest implements DefaultServerCheckpoint {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String getResult() throws Exception {
+	public String getResult() {
 		// TODO Auto-generated method stub
 		return this.result;
 

@@ -24,9 +24,9 @@ public interface DefaultCommand {
 
 	void setClient(Client cc);
 
-	void execute() throws Exception;
+	void execute();
 
-	<T> T getResponse() throws Exception;
+	<T> T getResponse();
 
-	<T> ArrayList<T> getResponses() throws Exception;
+	<T> ArrayList<T> getResponses();
 }

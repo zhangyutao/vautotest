@@ -1,9 +1,9 @@
 package basic;
 
 public interface Client {
-	<T> T getResponse() throws Exception;
+	<T> T getResponse();
 
-	void close() throws Exception;
+	void close();
 
-	<T> void execute(T content) throws Exception;
+	<T> void execute(T content);
 }

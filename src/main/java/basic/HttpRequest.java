@@ -24,7 +24,7 @@ public interface HttpRequest {
 
 	public void setClient(Client cc);
 
-	public void execute() throws Exception;
+	public void execute();
 
-	public Response getResponse() throws Exception;
+	public Response getResponse();
 }

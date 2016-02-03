@@ -18,26 +18,13 @@ public class ExampleOfEmail {
 		EmailRequest myEmail = list.myEmail;
 
 		// print some information of elements
-
 		System.out.println(String.valueOf(myEmail.getMessages()));
 
 		// execute email
-		try {
-
-			myEmail.execute();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		myEmail.execute();
 
 		// print some response of email
-		try {
-			System.out.println(String.valueOf(myEmail.getResponses()));
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.println(String.valueOf(myEmail.getResponses()));
 
 	}
 }

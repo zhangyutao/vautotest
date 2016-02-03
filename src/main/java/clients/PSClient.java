@@ -22,14 +22,20 @@ public class PSClient implements Client {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String getResponse() throws Exception {
+	public String getResponse() {
 		return result;
 	}
 
 	@Override
-	public void execute(Object commandline) throws PSCException {
+	public void execute(Object commandline) {
 		String[] commandlines = { (String) commandline };
-		execute(commandlines, defautTimeOut);
+		try {
+			execute(commandlines, defautTimeOut);
+		} catch (PSCException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -193,7 +199,7 @@ public class PSClient implements Client {
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() {
 		// TODO Auto-generated method stub
 	}
 

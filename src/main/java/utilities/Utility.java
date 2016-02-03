@@ -1,7 +1,6 @@
 
 package utilities;
 
-import static org.junit.Assert.fail;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -50,7 +49,6 @@ import net.sf.json.xml.XMLSerializer;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -276,27 +274,27 @@ public class Utility {
 			decompressed = out.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
-			fail("IOException: " + e.getMessage());
+
 		} finally {
 			if (ginzip != null) {
 				try {
 					ginzip.close();
 				} catch (IOException e) {
-					fail("IOException: " + e.getMessage());
+
 				}
 			}
 			if (in != null) {
 				try {
 					in.close();
 				} catch (IOException e) {
-					fail("IOException: " + e.getMessage());
+
 				}
 			}
 			if (out != null) {
 				try {
 					out.close();
 				} catch (IOException e) {
-					fail("IOException: " + e.getMessage());
+
 				}
 			}
 		}
@@ -314,19 +312,17 @@ public class Utility {
 	 * @throws ParserConfigurationException
 	 *             Parser Configuration Exception
 	 * @return NodeList
+	 * @throws XPathExpressionException
 	 */
-	public static NodeList queryXml(String respXml, String xpathQuery) throws ParserConfigurationException {
+	public static NodeList queryXml(String respXml, String xpathQuery) throws Exception {
 		XPathFactory xfactory = XPathFactory.newInstance();
 		XPath xpath = xfactory.newXPath();
 		NodeList result = null;
-		try {
-			Document doc = stringToDoc(respXml);
-			XPathExpression path = xpath.compile(xpathQuery);
-			result = (NodeList) path.evaluate(doc, XPathConstants.NODESET);
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-			fail("XPathExpressionException: " + e.getMessage());
-		}
+
+		Document doc = stringToDoc(respXml);
+		XPathExpression path = xpath.compile(xpathQuery);
+		result = (NodeList) path.evaluate(doc, XPathConstants.NODESET);
+
 		return result;
 	}
 
@@ -341,19 +337,17 @@ public class Utility {
 	 * @throws ParserConfigurationException
 	 *             Parser Configuration Exception
 	 * @return NodeList
+	 * @throws XPathExpressionException
 	 */
-	public static NodeList queryXml(byte[] respXmlByte, String xpathQuery) throws ParserConfigurationException {
+	public static NodeList queryXml(byte[] respXmlByte, String xpathQuery) throws Exception {
 		XPathFactory xfactory = XPathFactory.newInstance();
 		XPath xpath = xfactory.newXPath();
 		NodeList result = null;
-		try {
-			Document doc = stringToDoc(respXmlByte);
-			XPathExpression path = xpath.compile(xpathQuery);
-			result = (NodeList) path.evaluate(doc, XPathConstants.NODESET);
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-			fail("XPathExpressionException: " + e.getMessage());
-		}
+
+		Document doc = stringToDoc(respXmlByte);
+		XPathExpression path = xpath.compile(xpathQuery);
+		result = (NodeList) path.evaluate(doc, XPathConstants.NODESET);
+
 		return result;
 	}
 
@@ -364,35 +358,19 @@ public class Utility {
 	 * @param xmlStr
 	 *            xmlStr
 	 * @return doc
+	 * @throws Exception
 	 */
-	private static Document stringToDoc(String xmlStr) {
+	private static Document stringToDoc(String xmlStr) throws Exception {
 		// string to XML
 		Document doc = null;
-		try {
-			xmlStr = new String(xmlStr.getBytes(), "gb2312");
-			StringReader sr = new StringReader(xmlStr);
-			InputSource is = new InputSource(sr);
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder;
-			builder = factory.newDocumentBuilder();
-			doc = builder.parse(is);
 
-		} catch (ParserConfigurationException e) {
-			System.err.println(xmlStr);
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail("ParserConfigurationException: " + e.getMessage());
-		} catch (SAXException e) {
-			System.err.println(xmlStr);
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail("SAXException: " + e.getMessage());
-		} catch (IOException e) {
-			System.err.println(xmlStr);
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail("IOException: " + e.getMessage());
-		}
+		xmlStr = new String(xmlStr.getBytes(), "gb2312");
+		StringReader sr = new StringReader(xmlStr);
+		InputSource is = new InputSource(sr);
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder;
+		builder = factory.newDocumentBuilder();
+		doc = builder.parse(is);
 		return doc;
 	}
 
@@ -403,36 +381,21 @@ public class Utility {
 	 * @param xmlByte
 	 *            xmlByte
 	 * @return doc
+	 * @throws Exception
 	 */
-	private static Document stringToDoc(byte[] xmlByte) {
+	private static Document stringToDoc(byte[] xmlByte) throws Exception {
 		// string to XML
 		Document doc = null;
 		String xmlStr = "";
-		try {
-			xmlStr = new String(xmlByte, "gb2312");
-			StringReader sr = new StringReader(xmlStr);
-			InputSource is = new InputSource(sr);
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder;
-			builder = factory.newDocumentBuilder();
-			doc = builder.parse(is);
 
-		} catch (ParserConfigurationException e) {
-			System.err.println(xmlStr);
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail("ParserConfigurationException: " + e.getMessage());
-		} catch (SAXException e) {
-			System.err.println(xmlStr);
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail("SAXException: " + e.getMessage());
-		} catch (IOException e) {
-			System.err.println(xmlStr);
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail("IOException: " + e.getMessage());
-		}
+		xmlStr = new String(xmlByte, "gb2312");
+		StringReader sr = new StringReader(xmlStr);
+		InputSource is = new InputSource(sr);
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder;
+		builder = factory.newDocumentBuilder();
+		doc = builder.parse(is);
+
 		return doc;
 	}
 
@@ -442,42 +405,35 @@ public class Utility {
 	 * 
 	 * @param programName
 	 *            program Name
+	 * @throws IOException
 	 */
-	public static void closeProcess(String programName) {
+	public static void closeProcess(String programName) throws IOException {
 		Process listprocess;
+		listprocess = Runtime.getRuntime().exec("cmd.exe /c tasklist");
+		InputStream is = listprocess.getInputStream();
+		BufferedReader r = new BufferedReader(new InputStreamReader(is));
+		// StringBuffer sb = new StringBuffer();
+		String str = null;
+		while ((str = r.readLine()) != null) {
+			String id = null;
+			Matcher matcher = Pattern.compile(programName + "[ ]*([0-9]*)").matcher(str);
+			while (matcher.find()) {
+				if (matcher.groupCount() >= 1) {
+					id = matcher.group(1);
+					if (id != null) {
+						Integer pid = null;
 
-		try {
-			listprocess = Runtime.getRuntime().exec("cmd.exe /c tasklist");
-			InputStream is = listprocess.getInputStream();
-			BufferedReader r = new BufferedReader(new InputStreamReader(is));
-			// StringBuffer sb = new StringBuffer();
-			String str = null;
-			while ((str = r.readLine()) != null) {
-				String id = null;
-				Matcher matcher = Pattern.compile(programName + "[ ]*([0-9]*)").matcher(str);
-				while (matcher.find()) {
-					if (matcher.groupCount() >= 1) {
-						id = matcher.group(1);
-						if (id != null) {
-							Integer pid = null;
-							try {
-								pid = Integer.parseInt(id);
-							} catch (NumberFormatException e) {
-								e.printStackTrace();
-								fail("NumberFormatException: " + e.getMessage());
-							}
-							if (pid != null) {
-								Runtime.getRuntime().exec("cmd.exe /c taskkill /f /pid " + pid);
-								System.out.println("kill progress " + programName);
-							}
+						pid = Integer.parseInt(id);
+
+						if (pid != null) {
+							Runtime.getRuntime().exec("cmd.exe /c taskkill /f /pid " + pid);
+							System.out.println("kill progress " + programName);
 						}
 					}
 				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			fail("IOException: " + e.getMessage());
 		}
+
 	}
 
 	/**
@@ -488,8 +444,9 @@ public class Utility {
 	 *            source
 	 * @param dest
 	 *            dest
+	 * @throws Exception
 	 */
-	public static void copyAllFolderAndFiles(File source, File dest) {
+	public static void copyAllFolderAndFiles(File source, File dest) throws Exception {
 		File file2 = null;
 		File[] file = null;
 
@@ -501,22 +458,18 @@ public class Utility {
 
 				copyAllFolderAndFiles(file[i], file2);
 			} else {
-				try {
 
-					FileInputStream fis = new FileInputStream(source.getPath() + File.separator + file[i].getName());
-					FileOutputStream fos = new FileOutputStream(dest.getPath() + File.separator + file[i].getName());
+				FileInputStream fis = new FileInputStream(source.getPath() + File.separator + file[i].getName());
+				FileOutputStream fos = new FileOutputStream(dest.getPath() + File.separator + file[i].getName());
 
-					int a;
-					while ((a = fis.read()) != -1) {
-						fos.write((char) a);
-					}
-
-					fis.close();
-					fos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-					fail("IOException: " + e.getMessage());
+				int a;
+				while ((a = fis.read()) != -1) {
+					fos.write((char) a);
 				}
+
+				fis.close();
+				fos.close();
+
 			}
 		}
 

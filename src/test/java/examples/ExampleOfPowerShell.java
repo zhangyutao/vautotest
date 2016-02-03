@@ -21,21 +21,10 @@ public class ExampleOfPowerShell {
 		System.out.println(myPS.getLines());
 
 		// execute command
-		try {
-			myPS.execute();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		myPS.execute();
 
 		// print some response of command
-		try {
-			System.out.println((String) myPS.getResponse());
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.println((String) myPS.getResponse());
 
 	}
 }

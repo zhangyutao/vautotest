@@ -25,7 +25,7 @@ public class E2EValidationClient implements Client {
 	 *            - it must be a E2ECheckpointElements class.
 	 */
 	@Override
-	public void execute(Object serverCheckpointElements) throws Exception {
+	public void execute(Object serverCheckpointElements) {
 		System.out.println("Start E2E validation.");
 		E2ECheckpointElements e2eCheckpointElements = (E2ECheckpointElements) serverCheckpointElements;
 		ArrayList<Object> elements = ((E2ECheckpointElements) e2eCheckpointElements).getElements();
@@ -37,12 +37,12 @@ public class E2EValidationClient implements Client {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String getResponse() throws Exception {
+	public String getResponse() {
 		return result;
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() {
 
 	}
 }
