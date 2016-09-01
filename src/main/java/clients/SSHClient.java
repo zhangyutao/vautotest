@@ -35,7 +35,7 @@ public class SSHClient implements Client {
 		SSLTunnel ssltl = new SSLTunnel();
 		ssltl.setupSSLTunnel(proposeTunnelIP, proposeTunnelPort, jumpstaionIP, jumpstaionUser, jumpstaionIPPassword,
 				destServer, destPort);
-		return ssltl;
+		return ssltl.SSLTunnelOne;
 	}
 
 	@Override

@@ -18,7 +18,7 @@ import com.hp.ecs.ssh.SecureShellClientException;
 public class SSLTunnel implements Runnable {
 
 	private SecureShellClient ssc;
-	private SSLTunnel SSLTunnelOne;
+	public SSLTunnel SSLTunnelOne;
 	private String jumpstaionIP = "";
 	private String jumpstaionUser = "";
 	private String jumpstaionIPPassword = "";
